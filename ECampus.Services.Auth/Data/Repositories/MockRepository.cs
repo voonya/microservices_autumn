@@ -7,7 +7,7 @@ namespace ECampus.Services.Auth.Data.Repositories
     {
         internal static User User { get; set; } = new()
         {
-            Id = "...GUID...",
+            Id = Guid.NewGuid().ToString(),
             Name = "Test User",
             Email = "test@test.com"
         };
@@ -16,8 +16,8 @@ namespace ECampus.Services.Auth.Data.Repositories
         {
             new RefreshToken
             {
-                Id = "...Token_GUID...",
-                UserId = "...GUID...",
+                Id = Guid.NewGuid().ToString(),
+                UserId = User.Id,
                 Token = "Some JWT token here",
                 Expires = DateTime.Now.AddDays(1),
             }

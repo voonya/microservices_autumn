@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ECampus.Services.Auth.Services.JWT
+namespace ECampus.Services.Auth.Services
 {
     public class JwtTokenCreator
     {
