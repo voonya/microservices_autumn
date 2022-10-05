@@ -1,7 +1,7 @@
 ﻿using ECampus.Services.Auth.Data.Repositories;
 using ECampus.Services.Auth.Models;
 
-namespace ECampus.Services.Auth.Services.JWT
+namespace ECampus.Services.Auth.Services
 {
     public class JwtRefreshTokenHandler
     {

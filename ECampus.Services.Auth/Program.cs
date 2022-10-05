@@ -1,6 +1,6 @@
 using ECampus.Services.Auth.Data.Repositories;
 using ECampus.Services.Auth.Models;
-using ECampus.Services.Auth.Services.JWT;
+using ECampus.Services.Auth.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -22,7 +22,7 @@ builder.Services.AddControllers();
         options.Password.RequireUppercase = true;
         options.Password.RequireNonAlphanumeric = true;
     })
-    .AddEntityFrameworkStores<CinephileDbContext>();*/
+    .AddEntityFrameworkStores<ECampusDbContext>();*/
 
 string signingKeyPhrase = builder.Configuration["SigningKeyPhrase"];
 SymmetricSecurityKey signingKey = new(Encoding.UTF8.GetBytes(signingKeyPhrase));

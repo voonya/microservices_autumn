@@ -1,7 +1,7 @@
 using ECampus.Services.Auth.Data.Repositories;
 using ECampus.Services.Auth.Dtos;
 using ECampus.Services.Auth.Models;
-using ECampus.Services.Auth.Services.JWT;
+using ECampus.Services.Auth.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
