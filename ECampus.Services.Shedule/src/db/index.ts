@@ -1,5 +1,7 @@
 import { Sequelize } from 'sequelize';
-import { ScheduleSlotSchema, ScheduleSlotModel } from './schemas/shedule-slot';
+import { ScheduleSchema, ScheduleModel } from './schemas/schedule';
+import { ScheduleSlotSchema, ScheduleSlotModel } from './schemas/schedule-slot';
+import { SlotSchema, SlotModel } from './schemas/slot';
 
 export const initDB = async (dbOtions) => {
     const sequelize = new Sequelize({
@@ -19,6 +21,14 @@ export const initDB = async (dbOtions) => {
 
     await sequelize.authenticate();
 
+    ScheduleModel.init(ScheduleSchema, {
+        sequelize,
+        tableName: 'schedule',
+        schema: 'scheduledb',
+        underscored: true,
+    });
+
+
     ScheduleSlotModel.init(ScheduleSlotSchema, {
         sequelize,
         tableName: 'scheduleslot',
@@ -26,9 +36,18 @@ export const initDB = async (dbOtions) => {
         underscored: true,
     });
 
+    SlotModel.init(SlotSchema, {
+        sequelize,
+        tableName: 'slot',
+        schema: 'scheduledb',
+        underscored: true,
+    });
+
     await sequelize.sync();
 
     return {
-        scheduleDB: ScheduleSlotModel,
+        scheduleDB: ScheduleModel,
+        scheduleSlotDB: ScheduleSlotModel,
+        slotDB: SlotModel,
     };
 };

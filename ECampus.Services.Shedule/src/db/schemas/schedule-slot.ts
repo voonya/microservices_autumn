@@ -8,8 +8,8 @@ export interface ScheduleSlotAttributes {
     course_id: string;
 }
 
-export type IngredientInput = Required<ScheduleSlotAttributes>;
-export type IngredientOuput = Required<ScheduleSlotAttributes>;
+type IngredientInput = Required<ScheduleSlotAttributes>;
+type IngredientOuput = Required<ScheduleSlotAttributes>;
 
 export class ScheduleSlotModel
     extends Model<ScheduleSlotAttributes, ScheduleSlotAttributes>

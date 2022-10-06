@@ -1,9 +1,13 @@
-import { ScheduleSlotRepository } from './shedule-slot';
+import { ScheduleSlotRepository } from './schedule-slot';
+import { ScheduleRepository } from './schedule';
+import { SlotRepository } from './slot';
 
-const initRepositories = ({ scheduleDB }) => {
+const initRepositories = ({ scheduleDB, scheduleSlotDB, slotDB }) => {
     return {
-        scheduleSlotRepository: new ScheduleSlotRepository(scheduleDB),
+        scheduleRepository: new ScheduleRepository(scheduleDB),
+        scheduleSlotRepository: new ScheduleSlotRepository(scheduleSlotDB),
+        slotRepository: new SlotRepository(slotDB),
     };
 };
 
-export { initRepositories, ScheduleSlotRepository };
+export { initRepositories, ScheduleRepository, ScheduleSlotRepository };

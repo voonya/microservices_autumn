@@ -1,5 +1,6 @@
 import { ScheduleSlotNotFoundError } from 'exceptions';
-import { ScheduleSlotRepository } from 'db/repositories';
+import { ScheduleSlotRepository } from 'db/repositories/schedule-slot';
+import crypto from 'crypto';
 
 class ScheduleSlotService {
     private scheduleSlotRepository: ScheduleSlotRepository;
@@ -18,16 +19,43 @@ class ScheduleSlotService {
         return scheduleSlot;
     }
 
-    create(id: string) {
-        return id;
+    async create(
+        schedule_id: string,
+        slot_id: string,
+        student_id: string,
+        course_id: string,
+    ) {
+        const id = crypto.randomUUID();
+        const scheduleSlot = await this.scheduleSlotRepository.create(
+            id,
+            schedule_id,
+            slot_id,
+            student_id,
+            course_id,
+        );
+        return scheduleSlot;
     }
 
-    delete(id: string) {
-        return id;
+    async delete(id: string) {
+        const scheduleSlot = await this.scheduleSlotRepository.delete(id);
+        return scheduleSlot;
     }
 
-    update(id: string) {
-        return id;
+    async update(
+        id: string,
+        schedule_id: string,
+        slot_id: string,
+        student_id: string,
+        course_id: string,
+    ) {
+        const scheduleSlot = await this.scheduleSlotRepository.update(
+            id,
+            schedule_id,
+            slot_id,
+            student_id,
+            course_id,
+        );
+        return scheduleSlot;
     }
 }
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ScheduleSlotService } from 'services';
+import { ScheduleSlotService } from 'services/schedule-slot';
 import { HttpStatusCode } from 'constants/enums';
 
 class ScheduleSlotController {
@@ -12,38 +12,51 @@ class ScheduleSlotController {
     async getById(req: Request, res: Response) {
         const { id } = req.params;
 
-        const file = await this.scheduleSlotService.getById(id);
+        const scheduleSlot = await this.scheduleSlotService.getById(id);
 
         return res.status(HttpStatusCode.OK).json({
-            file,
+            scheduleSlot,
         });
     }
 
     create(req: Request, res: Response) {
-        const file = this.scheduleSlotService.create('New slot');
+        const { schedule_id, slot_id, student_id, course_id } = req.body;
+        const scheduleSlot = this.scheduleSlotService.create(
+            schedule_id,
+            slot_id,
+            student_id,
+            course_id,
+        );
 
         return res.status(HttpStatusCode.CREATED).json({
-            file,
+            scheduleSlot,
         });
     }
 
     delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        const file = this.scheduleSlotService.delete(id);
+        const scheduleSlot = this.scheduleSlotService.delete(id);
 
         return res.status(HttpStatusCode.OK).json({
-            file,
+            scheduleSlot,
         });
     }
 
     update(req: Request, res: Response) {
         const { id } = req.params;
+        const { schedule_id, slot_id, student_id, course_id } = req.body;
 
-        const file = this.scheduleSlotService.update(id);
+        const scheduleSlot = this.scheduleSlotService.update(
+            id,
+            schedule_id,
+            slot_id,
+            student_id,
+            course_id,
+        );
 
         return res.status(HttpStatusCode.OK).json({
-            file,
+            scheduleSlot,
         });
     }
 }
