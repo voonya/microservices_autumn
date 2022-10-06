@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: file-manager-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/file-service
+            pathType: "Prefix"
+            backend:
+              service:
+                name: file-manager-service
+                port:
+                  number: 80
