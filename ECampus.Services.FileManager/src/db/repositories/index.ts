@@ -1,8 +1,9 @@
 import { FileRepository } from './file';
 
-const initRepositories = ({ fileDB }) => {
+const initRepositories = () => {
+    //{ fileDB }
     return {
-        fileRepository: new FileRepository(fileDB),
+        fileRepository: new FileRepository(),
     };
 };
 

@@ -1,4 +1,4 @@
-export const FILE_MANAGER_BASE_ROUTE = '/file';
+export const FILE_MANAGER_BASE_ROUTE = '/api/file-service/file';
 
 export enum FileManagerRoutes {
     GET_FILE = '/:id',

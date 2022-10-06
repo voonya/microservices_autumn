@@ -5,12 +5,13 @@ type FileClient = typeof FileModel;
 class FileRepository {
     private _dbClient: FileClient;
 
-    constructor(sequelizeModel: FileClient) {
-        this._dbClient = sequelizeModel;
-    }
+    // constructor(sequelizeModel: FileClient) {
+    //     this._dbClient = sequelizeModel;
+    // }
 
     getById(id: string) {
-        return this._dbClient.findOne({ where: { id }, raw: true });
+        return id;
+        //return this._dbClient.findOne({ where: { id }, raw: true });
     }
 }
 

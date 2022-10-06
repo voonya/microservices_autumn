@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campus-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campus-client
+  template:
+    metadata:
+     labels:
+       app: campus-client
+    spec:
+      containers:
+        - image: voonya/campus-client
+          imagePullPolicy: Never
+          name: campus-client
+          ports:
+            - containerPort: 80
