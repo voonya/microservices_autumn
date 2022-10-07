@@ -19,38 +19,34 @@ class SlotController {
         });
     }
 
-    create(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const { day, begin_time, end_time } = req.body;
-        const slot = this.slotService.create(
-            day,
-            begin_time,
-            end_time
-        );
+        const slot = await this.slotService.create(day, begin_time, end_time);
 
         return res.status(HttpStatusCode.CREATED).json({
             slot,
         });
     }
 
-    delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        const slot = this.slotService.delete(id);
+        const slot = await this.slotService.delete(id);
 
         return res.status(HttpStatusCode.OK).json({
             slot,
         });
     }
 
-    update(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         const { id } = req.params;
         const { day, begin_time, end_time } = req.body;
 
-        const slot = this.slotService.update(
+        const slot = await this.slotService.update(
             id,
             day,
             begin_time,
-            end_time
+            end_time,
         );
 
         return res.status(HttpStatusCode.OK).json({

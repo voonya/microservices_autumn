@@ -19,17 +19,13 @@ class SlotService {
         return slot;
     }
 
-    async create(
-        day: string,
-        begin_time: Date,
-        end_time: Date
-    ) {
-        const id = crypto.randomUUID();
+    async create(day: string, begin_time: Date, end_time: Date) {
+        const id = '1';
         const slot = await this.slotRepository.create(
             id,
             day,
             begin_time,
-            end_time
+            end_time,
         );
         return slot;
     }
@@ -39,17 +35,12 @@ class SlotService {
         return slot;
     }
 
-    async update(
-        id: string,
-        day: string,
-        begin_time: Date,
-        end_time: Date
-    ) {
+    async update(id: string, day: string, begin_time: Date, end_time: Date) {
         const slot = await this.slotRepository.update(
             id,
             day,
             begin_time,
-            end_time
+            end_time,
         );
         return slot;
     }
