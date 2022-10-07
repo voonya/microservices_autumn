@@ -19,35 +19,31 @@ class ScheduleController {
         });
     }
 
-    create(req: Request, res: Response) {
+
+    async create(req: Request, res: Response) {
         const { year } = req.body;
-        const schedule = this.scheduleService.create(
-            year
-        );
+        const schedule = await this.scheduleService.create(year);
 
         return res.status(HttpStatusCode.CREATED).json({
             schedule,
         });
     }
 
-    delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        const schedule = this.scheduleService.delete(id);
+        const schedule = await this.scheduleService.delete(id);
 
         return res.status(HttpStatusCode.OK).json({
             schedule,
         });
     }
 
-    update(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         const { id } = req.params;
         const { year } = req.body;
 
-        const schedule = this.scheduleService.update(
-            id,
-            year
-        );
+        const schedule = await this.scheduleService.update(id, year);
 
         return res.status(HttpStatusCode.OK).json({
             schedule,

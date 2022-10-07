@@ -1,50 +1,40 @@
-import { ScheduleModel } from 'db/schemas/schedule';
+// import { ScheduleModel } from 'db/schemas/schedule';
 
-type ScheduleClient = typeof ScheduleModel;
+// type ScheduleClient = typeof ScheduleModel;
 
 class ScheduleRepository {
-    private _dbClient: ScheduleClient;
+    // private _dbClient: ScheduleClient;
 
-    constructor(sequelizeModel: ScheduleClient) {
-        this._dbClient = sequelizeModel;
-    }
+    // constructor(sequelizeModel: ScheduleClient) {
+    //     this._dbClient = sequelizeModel;
+    // }
 
     getById(id: string) {
-        return this._dbClient.findOne({ where: { id }, raw: true });
+        return {
+            id: 1,
+            year: 2022,
+        };
     }
 
-    create(
-        id: string,
-        year: number
-    ) {
-        return this._dbClient.create({
+    create(id: string, year: number) {
+        return {
             id: id,
-            year: year
-        }, { raw: true });
+            year: year,
+        };
     }
 
     delete(id: string) {
-        return this._dbClient.destroy({
-            where: {
-                id: id,
-            },
-        });
+        return {
+            id: id,
+            year: 2022,
+        };
     }
 
-    update(
-        id: string,
-        year: number,
-    ) {
-        return this._dbClient.update(
-            {
-                year: year,
-            },
-            {
-                where: {
-                    id: id,
-                },
-            },
-        );
+    update(id: string, year: number) {
+        return {
+            id: id,
+            year: year,
+        };
     }
 }
 

@@ -1,4 +1,4 @@
-export const SCHEDULE_MANAGER_BASE_ROUTE = '/schedule';
+export const SCHEDULE_MANAGER_BASE_ROUTE = '/api/schedule';
 
 export enum ScheduleManagerRoutes {
     GET_SCHEDULE = '/:id',
@@ -9,6 +9,7 @@ export enum ScheduleManagerRoutes {
 
 export enum ScheduleSlotManagerRoutes {
     GET_SCHEDULESLOT = '/scheduleslot/:id',
+    GET_SCHEDULEALLSLOTS = '/scheduleslot/student/:id',
     CREATE_SCHEDULESLOT = '/scheduleslot',
     DELETE_SCHEDULESLOT = '/scheduleslot/:id',
     UPDATE_SCHEDULESLOT = '/scheduleslot/:id',
