@@ -2,11 +2,15 @@ import { ScheduleService } from './schedule';
 import { ScheduleSlotService } from './schedule-slot';
 import { SlotService } from './slot';
 
-const initServices = ({ scheduleRepository, scheduleSlotRepository, slotRepository }) => {
+const initServices = ({
+    scheduleRepository,
+    scheduleSlotRepository,
+    slotRepository,
+}) => {
     return {
         scheduleService: new ScheduleSlotService(scheduleRepository),
         scheduleSlotService: new ScheduleSlotService(scheduleSlotRepository),
-        slotService: new SlotService(slotRepository)
+        slotService: new SlotService(slotRepository),
     };
 };
 
