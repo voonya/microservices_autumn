@@ -19,17 +19,6 @@ class ScheduleSlotController {
         });
     }
 
-    
-    async getByStudentId(req: Request, res: Response) {
-        const { id } = req.params;
-
-        const scheduleSlots = await this.scheduleSlotService.getByStudentId(id);
-
-        return res.status(HttpStatusCode.OK).json({
-            scheduleSlots,
-        });
-    }
-
     async create(req: Request, res: Response) {
         const { schedule_id, slot_id, student_id, course_id } = req.body;
         const scheduleSlot = await this.scheduleSlotService.create(

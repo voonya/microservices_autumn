@@ -19,6 +19,28 @@ class ScheduleService {
         return schedule;
     }
 
+    async qwe(id: string) {
+        const schedule = await this.scheduleRepository.getById(id);
+
+        if (!schedule) {
+            throw new ScheduleNotFoundError();
+        }
+
+        return schedule;
+    }
+    
+
+    async getByStudentId(id: string) {
+        const studentSchedule = await this.scheduleRepository.getByStudentId(id);
+
+        if (!studentSchedule) {
+            throw new ScheduleNotFoundError();
+        }
+
+        return studentSchedule;
+    }
+
+
     async create(year: number) {
         const id = '1';
         const schedule = await this.scheduleRepository.create(id, year);
