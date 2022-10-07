@@ -80,7 +80,7 @@ function ProfileService() {
                 <div>
                     <h3>Update Profile</h3>
                     <div>
-                        <span>PUT</span>
+                        <span>Update</span>
                         <span>http://localhost:8080/api/profile/:id</span>
                         <input type="text" ref={updateProfileIdInput}/>
                         <button onClick={updateProfileHandler}>Send</button>
@@ -89,7 +89,7 @@ function ProfileService() {
                 <div>
                     <h3>Delete Profile</h3>
                     <div>
-                        <span>PUT</span>
+                        <span>Delete</span>
                         <span>http://localhost:8080/api/profile/:id</span>
                         <input type="text" ref={deleteProfileIdInput}/>
                         <button onClick={deleteProfileHandler}>Send</button>

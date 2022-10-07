@@ -81,7 +81,7 @@ function FileService() {
                 <div>
                     <h3>Update File</h3>
                     <div>
-                        <span>PUT</span>
+                        <span>Update</span>
                         <span>/api/file-service/file/:id</span>
                         <input type="text" ref={updateFileIdInput}/>
                         <button onClick={updateFileHandler}>Send</button>
@@ -90,7 +90,7 @@ function FileService() {
                 <div>
                     <h3>Delete File</h3>
                     <div>
-                        <span>PUT</span>
+                        <span>Delete</span>
                         <span>/api/file-service/file/:id</span>
                         <input type="text" ref={deleteFileIdInput}/>
                         <button onClick={deleteFileHandler}>Send</button>
