@@ -10,7 +10,8 @@ class ProfileRepository {
     }
 
     getById(id: string) {
-        return this._dbClient.findOne({ where: { id }, raw: true });
+        return id;
+        //return this._dbClient.findOne({ where: { id }, raw: true });
     }
 }
 
