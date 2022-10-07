@@ -5,11 +5,11 @@ export enum ScheduleManagerRoutes {
     CREATE_SCHEDULE = '',
     DELETE_SCHEDULE = '/:id',
     UPDATE_SCHEDULE = '/:id',
+    GET_STUDENT_SCHEDULE = '/student/:id',
 }
 
 export enum ScheduleSlotManagerRoutes {
     GET_SCHEDULESLOT = '/scheduleslot/:id',
-    GET_SCHEDULEALLSLOTS = '/scheduleslot/student/:id',
     CREATE_SCHEDULESLOT = '/scheduleslot',
     DELETE_SCHEDULESLOT = '/scheduleslot/:id',
     UPDATE_SCHEDULESLOT = '/scheduleslot/:id',

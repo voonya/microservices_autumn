@@ -11,7 +11,7 @@ class ScheduleSlotRepository {
 
     getById(id: string) {
         return {
-            id: 1,
+            id: id,
             schedule_id: 1,
             slot_id: 1,
             student_id: 1,
@@ -24,36 +24,6 @@ class ScheduleSlotRepository {
         };
     }
 
-    getByStudentId(id: string) {
-        return [
-                {
-                    id: 1,
-                    schedule_id: 1,
-                    slot_id: 1,
-                    student_id: 1,
-                    course_id: 1,
-                    year: '2022',
-                    day: 'Sunday',
-                    begin_time: '15:00',
-                    end_time: '17:00',
-                    name: 'Vlad',
-                    course_name: 'Physics',
-                },
-                {
-                    id: 2,
-                    schedule_id: 1,
-                    slot_id: 2,
-                    student_id: 1,
-                    course_id: 3,
-                    year: '2022',
-                    day: 'Sunday',
-                    begin_time: '15:00',
-                    end_time: '17:00',
-                    name: 'Vlad',
-                    course_name: 'Math',
-                },
-            ];
-    }
 
     create(
         id: string,
@@ -79,7 +49,7 @@ class ScheduleSlotRepository {
 
     delete(id: string) {
         return {
-            id: 1,
+            id: id,
             schedule_id: 1,
             slot_id: 1,
             student_id: 1,

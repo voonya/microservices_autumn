@@ -11,17 +11,30 @@ class ScheduleController {
 
     async getById(req: Request, res: Response) {
         const { id } = req.params;
-
+        console.log(this.scheduleService.getByStudentId)
+        
         const schedule = await this.scheduleService.getById(id);
 
         return res.status(HttpStatusCode.OK).json({
             schedule,
         });
     }
+    
+    async getByStudentId(req: Request, res: Response) {
+        const { id } = req.params;
+        console.log(this.scheduleService.qwe)
+
+        const studentSchedule = await this.scheduleService.qwe(id);
+
+        return res.status(HttpStatusCode.OK).json({
+            studentSchedule,
+        });
+    }
 
 
     async create(req: Request, res: Response) {
         const { year } = req.body;
+        console.log(req.body);
         const schedule = await this.scheduleService.create(year);
 
         return res.status(HttpStatusCode.CREATED).json({

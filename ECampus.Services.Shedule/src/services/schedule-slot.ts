@@ -19,16 +19,6 @@ class ScheduleSlotService {
         return scheduleSlot;
     }
 
-    async getByStudentId(id: string) {
-        const scheduleSlots = await this.scheduleSlotRepository.getByStudentId(id);
-
-        if (!scheduleSlots) {
-            throw new ScheduleSlotNotFoundError();
-        }
-
-        return scheduleSlots;
-    }
-
     async create(
         schedule_id: string,
         slot_id: string,
