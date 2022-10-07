@@ -1,6 +1,6 @@
 import {useRef} from 'react';
 
-function ScheduleService() {
+const ScheduleService = () => {
     return(
         <div></div>
     )}
