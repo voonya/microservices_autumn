@@ -16,7 +16,8 @@ code {
 }
 
 .response-container {
-  width: 500px;
+  justify-content: center;
+  width: 100%;
 }
 
 .response-container div {
