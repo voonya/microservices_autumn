@@ -1,7 +1,7 @@
 import {useRef} from 'react';
 import './App.css';
 
-function FileService() {
+const FileService = () => {
     const responseDiv = useRef<HTMLDivElement>(null);
     const getFileIdInput = useRef<HTMLInputElement>(null);
     const createFileIdInput = useRef<HTMLInputElement>(null);

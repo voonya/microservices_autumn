@@ -1,6 +1,6 @@
 import {useRef} from 'react';
 
-function ProfileService() {
+const ProfileService = () => {
     const responseDiv = useRef<HTMLDivElement>(null);
     const getProfileIdInput = useRef<HTMLInputElement>(null);
     const createProfileIdInput = useRef<HTMLInputElement>(null);
@@ -29,11 +29,11 @@ function ProfileService() {
             return;
         }
 
-        makeRequest(`http://localhost:8080/api/profile/${getProfileIdInput.current.value}`);
+        makeRequest(`/api/profile/${getProfileIdInput.current.value}`);
     }
 
     const createProfileHandler = () => {
-        makeRequest(`http://localhost:8080/api/profile/`, {'method': "POST"});
+        makeRequest(`/api/profile/`, {'method': "POST"});
     }
 
     const updateProfileHandler = () => {
@@ -41,7 +41,7 @@ function ProfileService() {
             return;
         }
 
-        makeRequest(`http://localhost:8080/api/profile/${updateProfileIdInput.current.value}`);
+        makeRequest(`/api/profile/${updateProfileIdInput.current.value}`);
     }
 
     const deleteProfileHandler = () => {
@@ -49,7 +49,7 @@ function ProfileService() {
             return;
         }
 
-        makeRequest(`http://localhost:8080/api/profile/${deleteProfileIdInput.current.value}`);
+        makeRequest(`/api/profile/${deleteProfileIdInput.current.value}`);
     }
     return (
         <div className="App">
@@ -63,7 +63,7 @@ function ProfileService() {
                     <h3>Get Profile</h3>
                     <div>
                         <span>GET</span>
-                        <span>/api/profile-service/profile/:id</span>
+                        <span>/api/profile/:id</span>
                         <input type='text' ref={getProfileIdInput}></input>
                         <button onClick={getProfileHandler}>Send</button>
                     </div>
@@ -72,8 +72,8 @@ function ProfileService() {
                     <h3>Create Profile</h3>
                     <div>
                         <span>POST</span>
-                        <span>/api/profile-service/profile/</span>
-                        <input type="profile" ref={createProfileIdInput}/>
+                        <span>/api/profile/</span>
+                        <input type="text" ref={createProfileIdInput}/>
                         <button onClick={createProfileHandler}>Send</button>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ function ProfileService() {
                     <h3>Update Profile</h3>
                     <div>
                         <span>Update</span>
-                        <span>/api/profile-service/profile/:id</span>
+                        <span>/api/profile/:id</span>
                         <input type="text" ref={updateProfileIdInput}/>
                         <button onClick={updateProfileHandler}>Send</button>
                     </div>
@@ -90,7 +90,7 @@ function ProfileService() {
                     <h3>Delete Profile</h3>
                     <div>
                         <span>Delete</span>
-                        <span>/api/profile-service/profile/:id</span>
+                        <span>/api/profile/:id</span>
                         <input type="text" ref={deleteProfileIdInput}/>
                         <button onClick={deleteProfileHandler}>Send</button>
                     </div>

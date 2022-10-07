@@ -1,11 +1,17 @@
-import {useRef} from 'react';
+import { useRef, useState } from "react";
 
-function ProfileService() {
+function AuthService() {
     const responseDiv = useRef<HTMLDivElement>(null);
-    const getProfileIdInput = useRef<HTMLInputElement>(null);
-    const createProfileIdInput = useRef<HTMLInputElement>(null);
-    const updateProfileIdInput = useRef<HTMLInputElement>(null);
-    const deleteProfileIdInput = useRef<HTMLInputElement>(null);
+    const [registerData, setRegisterData] = useState({
+        Email: "",
+        UserName: "",
+        Password: "",
+    });
+    const [loginData, setLoginData] = useState({
+        UserName: "",
+        Email: "",
+        Password: "",
+    });
 
     const makeRequest = (route: string, options?: Record<string, unknown>) => {
         fetch(route, options)
@@ -14,89 +20,129 @@ function ProfileService() {
             })
             .then((data) => {
                 console.log(data);
-                setResponse(JSON.stringify(data, null, 4))
-            }).catch((err) => {
-            console.error(err);
-        });
-    }
+                setResponse(JSON.stringify(data, null, 4));
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
     const setResponse = (response: string) => {
         if (responseDiv.current) {
             responseDiv.current.innerHTML = `<pre>${response}</pre>`;
         }
-    }
-    const getProfileHandler = () => {
-        if (!getProfileIdInput.current?.value) {
-            return;
-        }
-
-        makeRequest(`http://localhost:8080/api/profile/${getProfileIdInput.current.value}`);
-    }
-
-    const createProfileHandler = () => {
-        makeRequest(`http://localhost:8080/api/profile/`, {'method': "POST"});
-    }
-
-    const updateProfileHandler = () => {
-        if (!updateProfileIdInput.current?.value) {
-            return;
-        }
-
-        makeRequest(`http://localhost:8080/api/profile/${updateProfileIdInput.current.value}`);
-    }
-
-    const deleteProfileHandler = () => {
-        if (!deleteProfileIdInput.current?.value) {
-            return;
-        }
-
-        makeRequest(`http://localhost:8080/api/profile/${deleteProfileIdInput.current.value}`);
-    }
+    };
+    const login = () => {
+        const data = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginData),
+        };
+        console.log(data);
+        makeRequest("/api/auth/login", data);
+    };
+    const register = () => {
+        console.log(JSON.stringify(registerData));
+        const data = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(registerData),
+        };
+        console.log(data);
+        makeRequest("/api/auth/register", data);
+    };
+    const logout = () => {
+        const data = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        console.log(data);
+        makeRequest("api/auth/logout", data);
+    };
     return (
         <div className="App">
-            <div className='response-container'>
+            <div className="response-container">
                 <h2>Response: </h2>
                 <div ref={responseDiv}></div>
             </div>
-            <section className='service-container'>
-                <h2>Profile service:</h2>
+            <section className="service-container">
+                <h2>Auth</h2>
                 <div>
-                    <h3>Get Profile</h3>
-                    <div>
-                        <span>GET</span>
-                        <span>http://localhost:8080/api/profile/:id</span>
-                        <input type='text' ref={getProfileIdInput}></input>
-                        <button onClick={getProfileHandler}>Send</button>
-                    </div>
-                </div>
-                <div>
-                    <h3>Create Profile</h3>
+                    <h3>Login</h3>
                     <div>
                         <span>POST</span>
-                        <span>http://localhost:8080/api/profile/</span>
-                        <input type="profile" ref={createProfileIdInput}/>
-                        <button onClick={createProfileHandler}>Send</button>
+                        <span>/api/auth/login</span>
+                        <label>
+                            Email
+                            <input
+                                type="text"
+                                onChange={(e) =>
+                                    setLoginData({ ...loginData, Email: e.target.value })
+                                }
+                            ></input>
+                        </label>
+                        <label>
+                            Password{" "}
+                            <input
+                                type="text"
+                                onChange={(e) =>
+                                    setLoginData({ ...loginData, Password: e.target.value })
+                                }
+                            ></input>
+                        </label>
+                        <button onClick={login}>Send</button>
                     </div>
                 </div>
                 <div>
-                    <h3>Update Profile</h3>
+                    <h3>Register</h3>
                     <div>
-                        <span>Update</span>
-                        <span>http://localhost:8080/api/profile/:id</span>
-                        <input type="text" ref={updateProfileIdInput}/>
-                        <button onClick={updateProfileHandler}>Send</button>
+                        <span>POST</span>
+                        <span>/api/auth/register</span>
+                        <label>
+                            UserName
+                            <input
+                                type="text"
+                                onChange={(e) =>
+                                    setRegisterData({ ...registerData, UserName: e.target.value })
+                                }
+                            ></input>
+                        </label>
+                        <label>
+                            Email
+                            <input
+                                type="text"
+                                onChange={(e) =>
+                                    setRegisterData({ ...registerData, Email: e.target.value })
+                                }
+                            ></input>
+                        </label>
+                        <label>
+                            Password{" "}
+                            <input
+                                type="text"
+                                onChange={(e) =>
+                                    setRegisterData({ ...registerData, Password: e.target.value })
+                                }
+                            ></input>
+                        </label>
+                        <button onClick={register}>Send</button>
                     </div>
                 </div>
                 <div>
-                    <h3>Delete Profile</h3>
+                    <h3>Logout</h3>
                     <div>
-                        <span>Delete</span>
-                        <span>http://localhost:8080/api/profile/:id</span>
-                        <input type="text" ref={deleteProfileIdInput}/>
-                        <button onClick={deleteProfileHandler}>Send</button>
+                        <span>POST</span>
+                        <span>/api/auth/logout</span>
+                        <button onClick={logout}>Send</button>
                     </div>
                 </div>
             </section>
         </div>
     );
 }
-export default ProfileService
+export default AuthService;
