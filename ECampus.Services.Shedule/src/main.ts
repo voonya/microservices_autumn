@@ -1,4 +1,4 @@
-import { initDB } from 'db/index';
+//import { initDB } from 'db/index';
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 import { initRoutes } from 'routes';
@@ -13,21 +13,21 @@ dotenv.config();
 
 const PORT = Number(getEnv('PORT') || 8080);
 
-const DB_OPTIONS = {
-    database: getEnv('DATABASE'),
-    username: getEnv('DB_USERNAME'),
-    password: getEnv('DB_PASSWORD'),
-    host: getEnv('DB_HOST'),
-    port: Number(getEnv('DB_PORT')),
-    dialect: getEnv('DB_DIALECT'),
-};
+// const DB_OPTIONS = {
+//     database: getEnv('DATABASE'),
+//     username: getEnv('DB_USERNAME'),
+//     password: getEnv('DB_PASSWORD'),
+//     host: getEnv('DB_HOST'),
+//     port: Number(getEnv('DB_PORT')),
+//     dialect: getEnv('DB_DIALECT'),
+// };
 
-console.log(DB_OPTIONS);
+//console.log(DB_OPTIONS);
 
 const main = async () => {
-    const dbs = await initDB(DB_OPTIONS);
+    //const dbs = await initDB(DB_OPTIONS);
 
-    const repositories = initRepositories(dbs);
+    const repositories = initRepositories();
 
     const services = initServices(repositories);
 

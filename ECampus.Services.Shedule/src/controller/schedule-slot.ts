@@ -19,9 +19,20 @@ class ScheduleSlotController {
         });
     }
 
-    create(req: Request, res: Response) {
+    
+    async getByStudentId(req: Request, res: Response) {
+        const { id } = req.params;
+
+        const scheduleSlots = await this.scheduleSlotService.getByStudentId(id);
+
+        return res.status(HttpStatusCode.OK).json({
+            scheduleSlots,
+        });
+    }
+
+    async create(req: Request, res: Response) {
         const { schedule_id, slot_id, student_id, course_id } = req.body;
-        const scheduleSlot = this.scheduleSlotService.create(
+        const scheduleSlot = await this.scheduleSlotService.create(
             schedule_id,
             slot_id,
             student_id,
@@ -33,21 +44,21 @@ class ScheduleSlotController {
         });
     }
 
-    delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        const scheduleSlot = this.scheduleSlotService.delete(id);
+        const scheduleSlot = await this.scheduleSlotService.delete(id);
 
         return res.status(HttpStatusCode.OK).json({
             scheduleSlot,
         });
     }
 
-    update(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         const { id } = req.params;
         const { schedule_id, slot_id, student_id, course_id } = req.body;
 
-        const scheduleSlot = this.scheduleSlotService.update(
+        const scheduleSlot = await this.scheduleSlotService.update(
             id,
             schedule_id,
             slot_id,
