@@ -145,3 +145,5 @@ function AuthService() {
         </div>
     );
 }
+
+export default AuthService
