@@ -65,6 +65,7 @@ namespace ECampus.Services.Auth.Controllers
         }
 
         [HttpPost("Logout")]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             try
