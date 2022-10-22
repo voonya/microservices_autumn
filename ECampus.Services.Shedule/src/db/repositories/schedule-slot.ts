@@ -1,29 +1,17 @@
-// import { ScheduleSlotModel } from 'db/schemas/schedule-slot';
+import { ScheduleSlotModel } from 'db/schemas/schedule-slot';
 
-// type ScheduleSlotClient = typeof ScheduleSlotModel;
+type ScheduleSlotClient = typeof ScheduleSlotModel;
 
 class ScheduleSlotRepository {
-    // private _dbClient: ScheduleSlotClient;
+    private _dbClient: ScheduleSlotClient;
 
-    // constructor(sequelizeModel: ScheduleSlotClient) {
-    //     this._dbClient = sequelizeModel;
-    // }
-
-    getById(id: string) {
-        return {
-            id: id,
-            schedule_id: 1,
-            slot_id: 1,
-            student_id: 1,
-            course_id: 1,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-        };
+    constructor(sequelizeModel: ScheduleSlotClient) {
+        this._dbClient = sequelizeModel;
     }
 
+    getById(id: string) {
+        return this._dbClient.findOne({ where: { id }, raw: true });
+    }
 
     create(
         id: string,
@@ -32,35 +20,21 @@ class ScheduleSlotRepository {
         student_id: string,
         course_id: string,
     ) {
-        return {
+        return this._dbClient.create({
             id: id,
             schedule_id: schedule_id,
             slot_id: slot_id,
             student_id: student_id,
             course_id: course_id,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-            course_name: 'Physics',
-        };
+        }, { raw: true });
     }
 
     delete(id: string) {
-        return {
-            id: id,
-            schedule_id: 1,
-            slot_id: 1,
-            student_id: 1,
-            course_id: 1,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-            course_name: 'Physics',
-        };
+        return this._dbClient.destroy({
+            where: {
+                id: id,
+            },
+        });
     }
 
     update(
@@ -70,19 +44,19 @@ class ScheduleSlotRepository {
         student_id: string,
         course_id: string,
     ) {
-        return {
-            id: id,
-            schedule_id: schedule_id,
-            slot_id: slot_id,
-            student_id: student_id,
-            course_id: course_id,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-            course_name: 'Physics',
-        };
+        return this._dbClient.update(
+            {
+                schedule_id: schedule_id,
+                slot_id: slot_id,
+                student_id: student_id,
+                course_id: course_id,
+            },
+            {
+                where: {
+                    id: id,
+                },
+            },
+        );
     }
 }
 

@@ -2,11 +2,11 @@ import { ScheduleSlotRepository } from './schedule-slot';
 import { ScheduleRepository } from './schedule';
 import { SlotRepository } from './slot';
 
-const initRepositories = () => {
+const initRepositories = ({ scheduleDB, scheduleSlotDB, slotDB }) => {
     return {
-        scheduleRepository: new ScheduleRepository(),
-        scheduleSlotRepository: new ScheduleSlotRepository(),
-        slotRepository: new SlotRepository(),
+        scheduleRepository: new ScheduleRepository(scheduleDB),
+        scheduleSlotRepository: new ScheduleSlotRepository(scheduleSlotDB),
+        slotRepository: new SlotRepository(slotDB),
     };
 };
 

@@ -20,7 +20,7 @@ class SlotService {
     }
 
     async create(day: string, begin_time: Date, end_time: Date) {
-        const id = '1';
+        const id = crypto.randomUUID();
         const slot = await this.slotRepository.create(
             id,
             day,

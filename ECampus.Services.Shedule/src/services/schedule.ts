@@ -19,43 +19,22 @@ class ScheduleService {
         return schedule;
     }
 
-    async qwe(id: string) {
-        const schedule = await this.scheduleRepository.getById(id);
-
-        if (!schedule) {
-            throw new ScheduleNotFoundError();
-        }
-
-        return schedule;
-    }
-    
-
-    async getByStudentId(id: string) {
-        const studentSchedule = await this.scheduleRepository.getByStudentId(id);
-
-        if (!studentSchedule) {
-            throw new ScheduleNotFoundError();
-        }
-
-        return studentSchedule;
-    }
-
 
     async create(year: number) {
-        const id = '1';
+        const id = crypto.randomUUID();
         const schedule = await this.scheduleRepository.create(id, year);
         console.log(schedule);
         return schedule;
     }
 
     async delete(id: string) {
-        const schedule = await this.scheduleRepository.delete(id);
-        return schedule;
+        const deleted = await this.scheduleRepository.delete(id);
+        return deleted;
     }
 
     async update(id: string, year: number) {
-        const schedule = await this.scheduleRepository.update(id, year);
-        return schedule;
+        const updated = await this.scheduleRepository.update(id, year);
+        return updated;
     }
 }
 

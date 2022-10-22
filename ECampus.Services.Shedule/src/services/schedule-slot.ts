@@ -25,7 +25,7 @@ class ScheduleSlotService {
         student_id: string,
         course_id: string,
     ) {
-        const id = '1';
+        const id = crypto.randomUUID();
         const scheduleSlot = await this.scheduleSlotRepository.create(
             id,
             schedule_id,

@@ -11,7 +11,6 @@ class ScheduleController {
 
     async getById(req: Request, res: Response) {
         const { id } = req.params;
-        console.log(this.scheduleService.getByStudentId)
         
         const schedule = await this.scheduleService.getById(id);
 
@@ -20,18 +19,6 @@ class ScheduleController {
         });
     }
     
-    async getByStudentId(req: Request, res: Response) {
-        const { id } = req.params;
-        console.log(this.scheduleService.qwe)
-
-        const studentSchedule = await this.scheduleService.qwe(id);
-
-        return res.status(HttpStatusCode.OK).json({
-            studentSchedule,
-        });
-    }
-
-
     async create(req: Request, res: Response) {
         const { year } = req.body;
         console.log(req.body);
@@ -45,10 +32,10 @@ class ScheduleController {
     async delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        const schedule = await this.scheduleService.delete(id);
+        const deleted = await this.scheduleService.delete(id);
 
         return res.status(HttpStatusCode.OK).json({
-            schedule,
+            deleted,
         });
     }
 
@@ -56,10 +43,10 @@ class ScheduleController {
         const { id } = req.params;
         const { year } = req.body;
 
-        const schedule = await this.scheduleService.update(id, year);
+        const updated = await this.scheduleService.update(id, year);
 
         return res.status(HttpStatusCode.OK).json({
-            schedule,
+            updated: updated,
         });
     }
 }
