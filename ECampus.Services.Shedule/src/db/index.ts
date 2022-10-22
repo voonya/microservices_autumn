@@ -4,11 +4,22 @@ import { ScheduleSlotSchema, ScheduleSlotModel } from './schemas/schedule-slot';
 import { SlotSchema, SlotModel } from './schemas/slot';
 
 export const initDB = async (dbOtions) => {
-    const sequelize = new Sequelize("postgresql://doadmin:AVNS_xbofXauyxZIKlYYjKLl@db-postgresql-fra1-55914-do-user-12560019-0.b.db.ondigitalocean.com:25060/defaultdb");
+    const sequelize = new Sequelize({
+        ...dbOtions,
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+        },
+        define: {
+            freezeTableName: true,
+            underscored: true,
+            timestamps: false,
+        },
+    });
 
-    console.log("auth begin");
     await sequelize.authenticate();
-    console.log("auth end");
 
     ScheduleModel.init(ScheduleSchema, {
         sequelize,
