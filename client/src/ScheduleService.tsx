@@ -1,8 +1,11 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
+import './App.css';
 
 function ScheduleService() {
     const responseDiv = useRef<HTMLDivElement>(null);
-    const getScheduleIdInput = useRef<HTMLInputElement>(null);
+    const getScheduleIdInput1 = useRef<HTMLInputElement>(null);
+    const getScheduleIdInput2 = useRef<HTMLInputElement>(null);
+    const getScheduleIdInput3 = useRef<HTMLInputElement>(null);
     const createScheduleIdInput = useRef<HTMLInputElement>(null);
     const updateScheduleIdInput = useRef<HTMLInputElement>(null);
     const updateScheduleYearInput = useRef<HTMLInputElement>(null);
@@ -17,8 +20,8 @@ function ScheduleService() {
                 console.log(data);
                 setResponse(JSON.stringify(data, null, 4))
             }).catch((err) => {
-            console.error(err); 
-        });
+                console.error(err);
+            });
     }
     const setResponse = (response: string) => {
         if (responseDiv.current) {
@@ -26,41 +29,44 @@ function ScheduleService() {
         }
     }
     const getScheduleHandler = () => {
-        if (!getScheduleIdInput.current?.value) {
+        console.log('herer')
+        if (!getScheduleIdInput1.current?.value) {
             return;
         }
 
-        makeRequest(`/api/schedule/${getScheduleIdInput.current.value}`);
+        console.log('ger')
+        makeRequest(`/api/schedule/${getScheduleIdInput1.current.value}`);
     }
 
     const getScheduleSlotHandler = () => {
-        if (!getScheduleIdInput.current?.value) {
+        if (!getScheduleIdInput2.current?.value) {
             return;
         }
 
-        makeRequest(`/api/schedule/scheduleslot/${getScheduleIdInput.current.value}`);
+        makeRequest(`/api/schedule/scheduleslot/${getScheduleIdInput2.current.value}`);
     }
 
     const getSlotHandler = () => {
-        if (!getScheduleIdInput.current?.value) {
+        if (!getScheduleIdInput3.current?.value) {
             return;
         }
 
-        makeRequest(`/api/schedule/slot/${getScheduleIdInput.current.value}`);
+        makeRequest(`/api/schedule/slot/${getScheduleIdInput3.current.value}`);
     }
-    
+
 
     const createScheduleHandler = () => {
         if (!createScheduleIdInput.current?.value) {
             return;
         }
-        
+
         makeRequest(`/api/schedule/`, {
-            'method': "POST", 
+            'method': "POST",
             "headers": {
                 'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify({year: createScheduleIdInput.current.value})});
+            },
+            body: JSON.stringify({ year: createScheduleIdInput.current.value })
+        });
     }
 
     const updateScheduleHandler = () => {
@@ -69,11 +75,12 @@ function ScheduleService() {
         }
 
         makeRequest(`/api/schedule/${updateScheduleIdInput.current.value}`, {
-            'method': "PUT", 
+            'method': "PUT",
             "headers": {
                 'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify({year: updateScheduleYearInput.current.value})});
+            },
+            body: JSON.stringify({ year: updateScheduleYearInput.current.value })
+        });
     }
 
     const deleteScheduleHandler = () => {
@@ -81,11 +88,11 @@ function ScheduleService() {
             return;
         }
 
-        makeRequest(`/api/schedule/${deleteScheduleIdInput.current.value}`, {'method': "DELETE"});
+        makeRequest(`/api/schedule/${deleteScheduleIdInput.current.value}`, { 'method': "DELETE" });
     }
 
 
-    
+
     return (
         <div className="App">
             <div className='response-container'>
@@ -99,7 +106,7 @@ function ScheduleService() {
                     <div>
                         <span>GET</span>
                         <span>/api/schedule/file/:id</span>
-                        <input type='text' ref={getScheduleIdInput}></input>
+                        <input type='text' ref={getScheduleIdInput1}></input>
                         <button onClick={getScheduleHandler}>Send</button>
                     </div>
                 </div>
@@ -108,7 +115,7 @@ function ScheduleService() {
                     <div>
                         <span>GET</span>
                         <span>/api/schedule/scheduleslot/:id</span>
-                        <input type='text' ref={getScheduleIdInput}></input>
+                        <input type='text' ref={getScheduleIdInput2}></input>
                         <button onClick={getScheduleSlotHandler}>Send</button>
                     </div>
                 </div>
@@ -117,7 +124,7 @@ function ScheduleService() {
                     <div>
                         <span>GET</span>
                         <span>/api/schedule/schedule/:id</span>
-                        <input type='text' ref={getScheduleIdInput}></input>
+                        <input type='text' ref={getScheduleIdInput3}></input>
                         <button onClick={getSlotHandler}>Send</button>
                     </div>
                 </div>
@@ -126,7 +133,7 @@ function ScheduleService() {
                     <div>
                         <span>POST</span>
                         <span>/api/schedule/</span>
-                        <input type="inut" ref={createScheduleIdInput}/>
+                        <input type="inut" ref={createScheduleIdInput} />
                         <button onClick={createScheduleHandler}>Send</button>
                     </div>
                 </div>
@@ -135,9 +142,9 @@ function ScheduleService() {
                     <div>
                         <span>PUT</span>
                         <span>/api/schedule/:id</span>
-                        <input type="text" ref={updateScheduleIdInput}/>
+                        <input type="text" ref={updateScheduleIdInput} />
                         <span>year</span>
-                        <input type="text" ref={updateScheduleYearInput}/>
+                        <input type="text" ref={updateScheduleYearInput} />
                         <button onClick={updateScheduleHandler}>Send</button>
                     </div>
                 </div>
@@ -146,11 +153,12 @@ function ScheduleService() {
                     <div>
                         <span>PUT</span>
                         <span>/api/schedule/:id</span>
-                        <input type="text" ref={deleteScheduleIdInput}/>
+                        <input type="text" ref={deleteScheduleIdInput} />
                         <button onClick={deleteScheduleHandler}>Send</button>
                     </div>
                 </div>
             </section>
         </div>
-    );}
+    );
+}
 export default ScheduleService

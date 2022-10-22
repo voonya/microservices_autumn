@@ -4,7 +4,7 @@ import FileService from './FileService'
 import AuthService from "./AuthService";
 import ScheduleService from "./ScheduleService";
 import ProfileService from "./ProfileService";
-
+import './App.css';
 
 function App() {
   return (
@@ -12,12 +12,12 @@ function App() {
     // <Route path="/file" element={<FileService/>}></Route>
     // <Route path="/schedule" element={<ScheduleService/>}></Route>
     // <Route path="/profile" element={<ProfileService/>}></Route>
-      <div className="App">
-          <AuthService/>
-          <FileService/>
-          <ScheduleService/>
-          <ProfileService/>
-      </div>
+    <div className="App">
+      <AuthService />
+      <FileService />
+      <ScheduleService />
+      <ProfileService />
+    </div>
   );
 }
 

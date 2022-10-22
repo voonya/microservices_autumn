@@ -12,9 +12,38 @@ spec:
      labels:
        app: file-manager               # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
+      initContainers:
+        - name: run-migrations
+          image: voonya/file-service-migrations
+          envFrom:
+            - configMapRef:
+                name: file-service-config
+            - secretRef:
+                name: file-service-secret
+          env:
+            - name: DB_URL
+              value: "postgres://filesDB:password@files-db:5432/filesDB"
+          imagePullPolicy: Never
+          command: ["migrate", "-path", "/migrations", "-database",  "$(DB_URL)", "goto", "$(VERSION)"] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
+          
       containers:
-        - image: voonya/file-manager    # образ Docker
+        - image: voonya/file-service    # образ Docker
+          volumeMounts:
+            - mountPath: /usr/share/file-storage/files
+              name: file-storage
           imagePullPolicy: Never   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
           name: file-manager           # ім'я контейнеру
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
+          envFrom:
+            - configMapRef:
+                name: file-service-config
+            - secretRef:
+                name: file-service-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+      volumes:
+        - name: file-storage
+          persistentVolumeClaim:
+            claimName: file-storage  

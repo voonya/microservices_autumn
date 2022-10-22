@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import './App.css';
 
 function AuthService() {
     const responseDiv = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ function AuthService() {
         makeRequest("api/auth/logout", data);
     };
     return (
-        <div className="App">
+        <div className="wrapper">
             <div className="response-container">
                 <h2>Response: </h2>
                 <div ref={responseDiv}></div>

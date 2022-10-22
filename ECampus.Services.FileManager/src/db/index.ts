@@ -1,34 +1,25 @@
-import { Sequelize } from 'sequelize';
-import { FileSchema, FileModel } from './schemas';
+// export const initDB = async (dbOtions) => {
+//     const sequelize = new Sequelize({
+//         ...dbOtions,
+//         define: {
+//             freezeTableName: true,
+//             underscored: true,
+//             timestamps: false,
+//         },
+//     });
 
-export const initDB = async (dbOtions) => {
-    const sequelize = new Sequelize({
-        ...dbOtions,
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false,
-            },
-        },
-        define: {
-            freezeTableName: true,
-            underscored: true,
-            timestamps: false,
-        },
-    });
+//     await sequelize.authenticate();
 
-    await sequelize.authenticate();
+//     FileModel.init(FileSchema, {
+//         sequelize,
+//         tableName: 'file',
+//         schema: 'public',
+//         underscored: true,
+//     });
 
-    FileModel.init(FileSchema, {
-        sequelize,
-        tableName: 'file',
-        schema: 'filedb',
-        underscored: true,
-    });
+//     await sequelize.sync();
 
-    await sequelize.sync();
-
-    return {
-        fileDB: FileModel,
-    };
-};
+//     return {
+//         fileDB: FileModel,
+//     };
+// };
