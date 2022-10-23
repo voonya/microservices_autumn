@@ -20,18 +20,18 @@ const initRoutes = ({ profileController }: InitRoutesProps) => {
 
     routes.post(
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.CREATE_PROFILE,
-        profileController.create.bind(profileController),
+        wrap(profileController.create.bind(profileController)),
     );
 
     routes.delete(
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.DELETE_PROFILE,
-        profileController.delete.bind(profileController),
+        wrap(profileController.delete.bind(profileController)),
     );
 
-    routes.put(
-        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE,
-        profileController.update.bind(profileController),
-    );
+    // routes.put(
+    //     PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE,
+    //     wrap(profileController.update.bind(profileController)),
+    // );
 
     return routes;
 };
