@@ -29,6 +29,12 @@ const initRoutes = ({
         SCHEDULE_MANAGER_BASE_ROUTE + ScheduleManagerRoutes.GET_SCHEDULE,
         wrap(scheduleController.getById.bind(scheduleController)),
     );
+    
+    routes.get(
+        SCHEDULE_MANAGER_BASE_ROUTE +
+            ScheduleManagerRoutes.GET_STUDENT_SCHEDULE,
+        wrap(scheduleController.getByStudentId.bind(scheduleController)),
+    );
 
     routes.post(
         SCHEDULE_MANAGER_BASE_ROUTE + ScheduleManagerRoutes.CREATE_SCHEDULE,
@@ -49,12 +55,6 @@ const initRoutes = ({
         SCHEDULE_MANAGER_BASE_ROUTE +
             ScheduleSlotManagerRoutes.GET_SCHEDULESLOT,
         wrap(scheduleSlotController.getById.bind(scheduleSlotController)),
-    );
-
-    routes.get(
-        SCHEDULE_MANAGER_BASE_ROUTE +
-            ScheduleSlotManagerRoutes.GET_SCHEDULEALLSLOTS,
-        wrap(scheduleSlotController.getByStudentId.bind(scheduleSlotController)),
     );
 
     routes.post(

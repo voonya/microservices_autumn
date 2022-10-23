@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: file-service-config
+data:
+  PORT: "8080"
+  DB_DIALECT: postgres
+  FILEPATH: share/file-storage/files
+  DB_HOST: files-db
+  DB_PORT: "5432"
