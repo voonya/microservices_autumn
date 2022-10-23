@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - image: voonya/campus-client
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           name: campus-client
           ports:
             - containerPort: 80

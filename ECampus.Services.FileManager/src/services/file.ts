@@ -1,5 +1,5 @@
 import { IFileUpload } from 'constants/types/upload-file';
-import { FileNotFoundError, UnsupportedFileExtension } from 'exceptions';
+import { FileNotFoundError, UnsupportedFileExtension, InvalidUUIDError } from 'exceptions';
 import { FileRepository } from 'db/repositories';
 import { FileExtension } from 'constants/enums';
 import path from 'path';
@@ -16,6 +16,10 @@ class FileService {
     }
 
     async getById(id: string) {
+        console.log(this.isValidUUID(id));
+        if (!this.isValidUUID(id)) {
+            throw new InvalidUUIDError();
+        }
         const file = await this.fileRepository.getById(id);
 
         if (!file) {
@@ -64,6 +68,10 @@ class FileService {
     }
 
     async delete(id: string) {
+        if (!this.isValidUUID(id)) {
+            throw new InvalidUUIDError();
+        }
+
         const file = await this.fileRepository.getById(id);
 
         if (!file) {
@@ -79,7 +87,7 @@ class FileService {
 
         fs.unlink(
             path.resolve(process.cwd(), this.filePath, filename),
-            () => {},
+            () => { },
         );
 
         if (!deletedFile) {
@@ -109,6 +117,11 @@ class FileService {
 
     private isFileExist(filename: string) {
         return fs.existsSync(path.resolve(this.filePath, filename));
+    }
+
+    private isValidUUID(uuid: string) {
+        const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+        return regexExp.test(uuid); // true
     }
 }
 
