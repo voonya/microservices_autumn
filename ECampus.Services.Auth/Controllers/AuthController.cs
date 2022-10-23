@@ -3,7 +3,6 @@ using ECampus.Services.Auth.Dtos;
 using ECampus.Services.Auth.Models;
 using ECampus.Services.Auth.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECampus.Services.Auth.Controllers
@@ -27,7 +26,7 @@ namespace ECampus.Services.Auth.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var user = MockRepository.User;
+            var user = new User();
             // user = 
             //   await _userManager.FindByNameAsync(model.UserName).ConfigureAwait(false)
             //   ?? await _userManager.FindByEmailAsync(model.Email).ConfigureAwait(false);
@@ -42,7 +41,7 @@ namespace ECampus.Services.Auth.Controllers
             var (token, _) = _tokenCreator.CreateAuthToken(user);
             var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
 
-            return Ok(new { User = user.Name, Token = token, RefresjToken = refreshToken });
+            return Ok(new { User = user.Login, Token = token, RefreshToken = refreshToken });
         }
 
         [HttpPost("Register")]
@@ -51,7 +50,7 @@ namespace ECampus.Services.Auth.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var user = new User { Id = Guid.NewGuid().ToString(), Email = model.Email, Name = model.UserName };
+            var user = new User();
             // var result = await _userManager.CreateAsync(user, model.Password).ConfigureAwait(false);
             // if (!result.Succeeded)
             //    return BadRequest(result.Errors);
@@ -61,7 +60,7 @@ namespace ECampus.Services.Auth.Controllers
             var (token, _) = _tokenCreator.CreateAuthToken(user);
             var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
 
-            return Ok(new { User = user.Name, Token = token, RefresjToken = refreshToken });
+            return Ok(new { User = user.Login, Token = token, RefresjToken = refreshToken });
         }
 
         [HttpPost("Logout")]

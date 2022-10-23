@@ -6,9 +6,9 @@ namespace ECampus.Services.Auth.Services
     public class JwtRefreshTokenHandler
     {
         private readonly JwtTokenCreator _tokenCreator;
-        private readonly IMockRepostiory _tokenRepository;
+        private readonly IRefreshTokenRepository _tokenRepository;
 
-        public JwtRefreshTokenHandler(JwtTokenCreator tokenCreator, IMockRepostiory tokenRepository)
+        public JwtRefreshTokenHandler(JwtTokenCreator tokenCreator, IRefreshTokenRepository tokenRepository)
         {
             _tokenCreator = tokenCreator;
             _tokenRepository = tokenRepository;
