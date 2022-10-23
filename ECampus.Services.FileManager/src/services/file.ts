@@ -1,11 +1,10 @@
 import { IFileUpload } from 'constants/types/upload-file';
-import { FileNotFoundError, UnsupportedFileExtension } from 'exceptions';
+import { FileNotFoundError, UnsupportedFileExtension, InvalidUUIDError } from 'exceptions';
 import { FileRepository } from 'db/repositories';
 import { FileExtension } from 'constants/enums';
 import path from 'path';
 import fs from 'fs';
 import { getEnv } from 'helpers';
-import { randomUUID } from 'crypto';
 
 class FileService {
     private fileRepository: FileRepository;
@@ -17,6 +16,10 @@ class FileService {
     }
 
     async getById(id: string) {
+        console.log(this.isValidUUID(id));
+        if (!this.isValidUUID(id)) {
+            throw new InvalidUUIDError();
+        }
         const file = await this.fileRepository.getById(id);
 
         if (!file) {
@@ -29,6 +32,7 @@ class FileService {
             getEnv('FILEPATH'),
             filename,
         );
+
         if (!this.isFileExist(filePath)) {
             throw new FileNotFoundError();
         }
@@ -42,22 +46,20 @@ class FileService {
         const createdFiles = [];
 
         for (const file of files) {
-            const fileId = randomUUID();
             const splitedName = file.originalname.split('.');
             const extension = splitedName[splitedName.length - 1];
-            const filename = `${fileId}.${extension}`;
-
-            fs.writeFileSync(
-                path.resolve(this.filePath, filename),
-                file.buffer,
-            );
-
             const fileObj = {
                 filename: file.originalname,
                 extension,
             };
 
             const createdFile = await this.fileRepository.create(fileObj);
+
+            const filename = `${createdFile.id}.${extension}`;
+            fs.writeFileSync(
+                path.resolve(process.cwd(), this.filePath, filename),
+                file.buffer,
+            );
 
             createdFiles.push(createdFile);
         }
@@ -66,6 +68,10 @@ class FileService {
     }
 
     async delete(id: string) {
+        if (!this.isValidUUID(id)) {
+            throw new InvalidUUIDError();
+        }
+
         const file = await this.fileRepository.getById(id);
 
         if (!file) {
@@ -79,7 +85,10 @@ class FileService {
 
         const deletedFile = await this.fileRepository.delete(id);
 
-        fs.unlink(path.resolve(this.filePath, filename), () => {});
+        fs.unlink(
+            path.resolve(process.cwd(), this.filePath, filename),
+            () => { },
+        );
 
         if (!deletedFile) {
             throw new Error('Unsuccessful delete!');
@@ -108,6 +117,11 @@ class FileService {
 
     private isFileExist(filename: string) {
         return fs.existsSync(path.resolve(this.filePath, filename));
+    }
+
+    private isValidUUID(uuid: string) {
+        const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+        return regexExp.test(uuid); // true
     }
 }
 

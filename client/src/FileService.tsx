@@ -1,48 +1,46 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
 import './App.css';
 
 const FileService = () => {
     const responseDiv = useRef<HTMLDivElement>(null);
-    const getFileIdInput = useRef<HTMLInputElement>(null);
     const createFileIdInput = useRef<HTMLInputElement>(null);
-    const updateFileIdInput = useRef<HTMLInputElement>(null);
     const deleteFileIdInput = useRef<HTMLInputElement>(null);
 
     const makeRequest = (route: string, options?: Record<string, unknown>) => {
         fetch(route, options)
             .then((response) => {
-                return response.json();
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return response.json()
+                }
+                return response;
             })
             .then((data) => {
                 console.log(data);
                 setResponse(JSON.stringify(data, null, 4))
             }).catch((err) => {
-            console.error(err);
-        });
+                console.error(err);
+            });
     }
     const setResponse = (response: string) => {
         if (responseDiv.current) {
             responseDiv.current.innerHTML = `<pre>${response}</pre>`;
         }
     }
-    const getFileHandler = () => {
-        if (!getFileIdInput.current?.value) {
-            return;
-        }
-
-        makeRequest(`/api/file-service/file/${getFileIdInput.current.value}`);
-    }
 
     const createFileHandler = () => {
-        makeRequest(`/api/file-service/file/`, {'method': "POST"});
-    }
-
-    const updateFileHandler = () => {
-        if (!updateFileIdInput.current?.value) {
+        if (!createFileIdInput.current?.files) {
             return;
         }
+        const files = createFileIdInput.current.files;
+        const filesData = new FormData()
+        Array.from(files).forEach(file => {
+            filesData.append('files', file);
+        });
 
-        makeRequest(`/api/file-service/file/${updateFileIdInput.current.value}`);
+        console.log(filesData.getAll('files'));
+
+        makeRequest(`/api/file-service/file`, { method: "POST", body: filesData });
     }
 
     const deleteFileHandler = () => {
@@ -65,8 +63,7 @@ const FileService = () => {
                     <div>
                         <span>GET</span>
                         <span>/api/file-service/file/:id</span>
-                        <input type='text' ref={getFileIdInput}></input>
-                        <button onClick={getFileHandler}>Send</button>
+                        <span>Для перегляду файлів перейдіть на http://localhost:80/api/file-service/file/:id</span>
                     </div>
                 </div>
                 <div>
@@ -74,17 +71,8 @@ const FileService = () => {
                     <div>
                         <span>POST</span>
                         <span>/api/file-service/file/</span>
-                        <input type="file" ref={createFileIdInput}/>
+                        <input type="file" ref={createFileIdInput} multiple />
                         <button onClick={createFileHandler}>Send</button>
-                    </div>
-                </div>
-                <div>
-                    <h3>Update File</h3>
-                    <div>
-                        <span>Update</span>
-                        <span>/api/file-service/file/:id</span>
-                        <input type="text" ref={updateFileIdInput}/>
-                        <button onClick={updateFileHandler}>Send</button>
                     </div>
                 </div>
                 <div>
@@ -92,7 +80,7 @@ const FileService = () => {
                     <div>
                         <span>Delete</span>
                         <span>/api/file-service/file/:id</span>
-                        <input type="text" ref={deleteFileIdInput}/>
+                        <input type="text" ref={deleteFileIdInput} />
                         <button onClick={deleteFileHandler}>Send</button>
                     </div>
                 </div>

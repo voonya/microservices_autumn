@@ -1,8 +1,9 @@
 import { ProfileRepository } from './profile';
+import type {PrismaClient} from '@prisma/client'
 
-const initRepositories = ({ profileDB }) => {
+const initRepositories = (prismaClient: PrismaClient) => {
     return {
-        profileRepository: new ProfileRepository(profileDB),
+        profileRepository: new ProfileRepository(prismaClient),
     };
 };
 

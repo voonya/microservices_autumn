@@ -11,7 +11,6 @@ class ScheduleSlotService {
 
     async getById(id: string) {
         const scheduleSlot = await this.scheduleSlotRepository.getById(id);
-
         if (!scheduleSlot) {
             throw new ScheduleSlotNotFoundError();
         }
@@ -25,14 +24,14 @@ class ScheduleSlotService {
         student_id: string,
         course_id: string,
     ) {
-        const id = '1';
-        const scheduleSlot = await this.scheduleSlotRepository.create(
+        const id = crypto.randomUUID();
+        const scheduleSlot = await this.scheduleSlotRepository.create({
             id,
             schedule_id,
             slot_id,
             student_id,
             course_id,
-        );
+        });
         return scheduleSlot;
     }
 
@@ -48,13 +47,13 @@ class ScheduleSlotService {
         student_id: string,
         course_id: string,
     ) {
-        const scheduleSlot = await this.scheduleSlotRepository.update(
+        const scheduleSlot = await this.scheduleSlotRepository.update({
             id,
             schedule_id,
             slot_id,
             student_id,
             course_id,
-        );
+        });
         return scheduleSlot;
     }
 }

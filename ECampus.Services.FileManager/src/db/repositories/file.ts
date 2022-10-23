@@ -1,5 +1,5 @@
-import { File } from 'constants/types';
 import type { PrismaClient } from '@prisma/client';
+import { File } from 'constants/types';
 
 class FileRepository {
     private _dbClient: PrismaClient;
@@ -19,6 +19,7 @@ class FileRepository {
     }
 
     delete(id: string) {
+        this._dbClient;
         return this._dbClient.file.delete({ where: { id } });
     }
 }

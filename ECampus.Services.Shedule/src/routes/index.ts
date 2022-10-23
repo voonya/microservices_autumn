@@ -29,12 +29,6 @@ const initRoutes = ({
         SCHEDULE_MANAGER_BASE_ROUTE + ScheduleManagerRoutes.GET_SCHEDULE,
         wrap(scheduleController.getById.bind(scheduleController)),
     );
-    
-    routes.get(
-        SCHEDULE_MANAGER_BASE_ROUTE +
-            ScheduleManagerRoutes.GET_STUDENT_SCHEDULE,
-        wrap(scheduleController.getByStudentId.bind(scheduleController)),
-    );
 
     routes.post(
         SCHEDULE_MANAGER_BASE_ROUTE + ScheduleManagerRoutes.CREATE_SCHEDULE,
