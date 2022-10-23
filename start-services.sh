@@ -13,3 +13,7 @@ cd ..
 cd ./ECampus.Services.Profile
 bash start-service.sh
 cd ..
+
+cd ./client
+bash start-service.sh
+cd ..
