@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profile-db
+  template:
+    metadata:
+      labels:
+        app: profile-db
+    spec:
+      containers:
+        - name: profile-db
+          image: postgres:14.1-alpine3.15
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: profile-db-config
+            - secretRef:
+                name: profile-db-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-db-profile

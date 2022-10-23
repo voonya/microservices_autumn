@@ -1,34 +1,25 @@
-// import { Sequelize } from 'sequelize';
-import { ProfileSchema, ProfileModel } from './schemas';
+// export const initDB = async (dbOtions) => {
+//     const sequelize = new Sequelize({
+//         ...dbOtions,
+//         define: {
+//             freezeTableName: true,
+//             underscored: true,
+//             timestamps: false,
+//         },
+//     });
 
-export const initDB = async () => {
-    // const sequelize = new Sequelize({
-    //     ...dbOtions,
-    //     dialectOptions: {
-    //         ssl: {
-    //             require: true,
-    //             rejectUnauthorized: false,
-    //         },
-    //     },
-    //     define: {
-    //         freezeTableName: true,
-    //         underscored: true,
-    //         timestamps: false,
-    //     },
-    // });
+//     await sequelize.authenticate();
 
-    // await sequelize.authenticate();
+//     ProfileModel.init(ProfileSchema, {
+//         sequelize,
+//         tableName: 'user',
+//         schema: 'userdb',
+//         underscored: true,
+//     });
 
-    // ProfileModel.init(ProfileSchema, {
-    //     sequelize,
-    //     tableName: 'user',
-    //     schema: 'userdb',
-    //     underscored: true,
-    // });
+//     await sequelize.sync();
 
-    // await sequelize.sync();
-
-    return {
-        profileDB: ProfileModel,
-    };
-};
+//     return {
+//         profileDB: ProfileModel,
+//     };
+// };
