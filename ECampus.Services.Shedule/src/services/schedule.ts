@@ -1,6 +1,7 @@
 import { ScheduleNotFoundError } from 'exceptions';
 import { ScheduleRepository } from 'db/repositories/schedule';
 import crypto from 'crypto';
+import { Schedule } from 'constants/types/schedule';
 
 class ScheduleService {
     private scheduleRepository: ScheduleRepository;
@@ -19,43 +20,22 @@ class ScheduleService {
         return schedule;
     }
 
-    async qwe(id: string) {
-        const schedule = await this.scheduleRepository.getById(id);
-
-        if (!schedule) {
-            throw new ScheduleNotFoundError();
-        }
-
-        return schedule;
-    }
-    
-
-    async getByStudentId(id: string) {
-        const studentSchedule = await this.scheduleRepository.getByStudentId(id);
-
-        if (!studentSchedule) {
-            throw new ScheduleNotFoundError();
-        }
-
-        return studentSchedule;
-    }
-
-
     async create(year: number) {
-        const id = '1';
-        const schedule = await this.scheduleRepository.create(id, year);
+        const id = crypto.randomUUID();
+        console.log({ id, year })
+        const schedule = await this.scheduleRepository.create({ id, year } as Schedule);
         console.log(schedule);
         return schedule;
     }
 
     async delete(id: string) {
-        const schedule = await this.scheduleRepository.delete(id);
-        return schedule;
+        const deleted = await this.scheduleRepository.delete(id);
+        return deleted;
     }
 
     async update(id: string, year: number) {
-        const schedule = await this.scheduleRepository.update(id, year);
-        return schedule;
+        const updated = await this.scheduleRepository.update({ id, year });
+        return updated;
     }
 }
 

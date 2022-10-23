@@ -1,71 +1,39 @@
-// import { ScheduleModel } from 'db/schemas/schedule';
-
-// type ScheduleClient = typeof ScheduleModel;
+import type { PrismaClient } from '@prisma/client';
+import { Schedule } from 'constants/types/schedule';
 
 class ScheduleRepository {
-    // private _dbClient: ScheduleClient;
+    private _dbClient: PrismaClient;
 
-    // constructor(sequelizeModel: ScheduleClient) {
-    //     this._dbClient = sequelizeModel;
-    // }
+    constructor(sequelizeModel: PrismaClient) {
+        this._dbClient = sequelizeModel;
+    }
 
     getById(id: string) {
-        return {
-            id: id,
-            year: 2022,
-        };
+        return this._dbClient.schedule.findFirst({ where: { id } });
     }
 
-    getByStudentId(id: string) {
-        return [
-                {
-                    id: id,
-                    schedule_id: 1,
-                    slot_id: 1,
-                    student_id: id,
-                    course_id: 1,
-                    year: '2022',
-                    day: 'Sunday',
-                    begin_time: '15:00',
-                    end_time: '17:00',
-                    name: 'Vlad',
-                    course_name: 'Physics',
-                },
-                {
-                    id: 2,
-                    schedule_id: 1,
-                    slot_id: 2,
-                    student_id: id,
-                    course_id: 3,
-                    year: '2022',
-                    day: 'Sunday',
-                    begin_time: '15:00',
-                    end_time: '17:00',
-                    name: 'Vlad',
-                    course_name: 'Math',
-                },
-            ];
-    }
-
-    create(id: string, year: number) {
-        return {
-            id: id,
-            year: year,
-        };
+    create(schedule: Schedule) {
+        console.log(schedule)
+        return this._dbClient.schedule.create({
+            data: schedule,
+        });
     }
 
     delete(id: string) {
-        return {
-            id: id,
-            year: 2022,
-        };
+        return this._dbClient.schedule.delete({
+            where: {
+                id: id,
+            },
+        });
     }
 
-    update(id: string, year: number) {
-        return {
-            id: id,
-            year: year,
-        };
+    update(schedule: Schedule) {
+        return this._dbClient.schedule.update({
+            where: {
+                id: schedule.id,
+            },
+            data: schedule,
+        });
     }
 }
 

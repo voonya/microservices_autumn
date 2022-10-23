@@ -18,19 +18,49 @@ const initRoutes = ({ profileController }: InitRoutesProps) => {
         wrap(profileController.getById.bind(profileController)),
     );
 
+    routes.get(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.GET_ALL,
+        wrap(profileController.getAll.bind(profileController)),
+    );
+
     routes.post(
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.CREATE_PROFILE,
-        profileController.create.bind(profileController),
+        wrap(profileController.create.bind(profileController)),
     );
 
     routes.delete(
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.DELETE_PROFILE,
-        profileController.delete.bind(profileController),
+        wrap(profileController.delete.bind(profileController)),
     );
 
-    routes.put(
-        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE,
-        profileController.update.bind(profileController),
+    routes.patch(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_NAME,
+        wrap(profileController.updateName.bind(profileController)),
+    );
+
+    routes.patch(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_PASSWORD,
+        wrap(profileController.updatePassword.bind(profileController)),
+    );
+
+    routes.patch(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_ROLE,
+        wrap(profileController.updateRole.bind(profileController)),
+    );
+
+    routes.patch(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_GROUP,
+        wrap(profileController.updateGroup.bind(profileController)),
+    );
+
+    routes.patch(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_DEPARTMENT,
+        wrap(profileController.updateDepartment.bind(profileController)),
+    );
+
+    routes.patch(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_AVATAR,
+        wrap(profileController.updateAvatar.bind(profileController)),
     );
 
     return routes;

@@ -14,7 +14,15 @@ spec:
     spec:
       containers:
         - image: voonya/schedule    # образ Docker
-          imagePullPolicy: Never   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
+          imagePullPolicy: Always  # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
           name: schedule           # ім'я контейнеру
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
+          envFrom:
+            - configMapRef:
+                name: schedule-service-config
+            - secretRef:
+                name: schedule-service-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(POSTGRES_DB)"

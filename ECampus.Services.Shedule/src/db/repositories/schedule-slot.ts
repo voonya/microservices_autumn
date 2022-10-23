@@ -1,88 +1,39 @@
-// import { ScheduleSlotModel } from 'db/schemas/schedule-slot';
-
-// type ScheduleSlotClient = typeof ScheduleSlotModel;
+import type { PrismaClient } from '@prisma/client';
+import { ScheduleSlot } from 'constants/types/schedule-slot';
 
 class ScheduleSlotRepository {
-    // private _dbClient: ScheduleSlotClient;
+    private _dbClient: PrismaClient;
 
-    // constructor(sequelizeModel: ScheduleSlotClient) {
-    //     this._dbClient = sequelizeModel;
-    // }
-
-    getById(id: string) {
-        return {
-            id: id,
-            schedule_id: 1,
-            slot_id: 1,
-            student_id: 1,
-            course_id: 1,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-        };
+    constructor(prismaClient: PrismaClient) {
+        this._dbClient = prismaClient;
     }
 
+    getById(id: string) {
+        return this._dbClient.scheduleslot.findFirst({ where: { id } });
+    }
 
-    create(
-        id: string,
-        schedule_id: string,
-        slot_id: string,
-        student_id: string,
-        course_id: string,
-    ) {
-        return {
-            id: id,
-            schedule_id: schedule_id,
-            slot_id: slot_id,
-            student_id: student_id,
-            course_id: course_id,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-            course_name: 'Physics',
-        };
+    create(scheduleslot: ScheduleSlot) {
+        console.log(scheduleslot)
+        return this._dbClient.scheduleslot.create({
+            data: scheduleslot,
+        });
     }
 
     delete(id: string) {
-        return {
-            id: id,
-            schedule_id: 1,
-            slot_id: 1,
-            student_id: 1,
-            course_id: 1,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-            course_name: 'Physics',
-        };
+        return this._dbClient.scheduleslot.delete({
+            where: {
+                id: id,
+            },
+        });
     }
 
-    update(
-        id: string,
-        schedule_id: string,
-        slot_id: string,
-        student_id: string,
-        course_id: string,
-    ) {
-        return {
-            id: id,
-            schedule_id: schedule_id,
-            slot_id: slot_id,
-            student_id: student_id,
-            course_id: course_id,
-            year: '2022',
-            day: 'Sunday',
-            begin_time: '15:00',
-            end_time: '17:00',
-            name: 'Vlad',
-            course_name: 'Physics',
-        };
+    update(scheduleslot: ScheduleSlot) {
+        return this._dbClient.scheduleslot.update({
+            where: {
+                id: scheduleslot.id,
+            },
+            data: scheduleslot,
+        });
     }
 }
 

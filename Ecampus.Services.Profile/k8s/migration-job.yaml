@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration-profile-db
+spec:
+  template:
+    spec:
+      containers:
+        - name: migration-profile-db
+          image: voonya/migration-profile-db
+          imagePullPolicy: Never
+          command: [ 'npx', 'prisma', 'migrate', 'deploy' ]
+          envFrom:
+            - configMapRef:
+                name: profile-service-config
+            - secretRef:
+                name: profile-service-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(POSTGRES_DB)"
+      restartPolicy: Never
+  backoffLimit: 0
