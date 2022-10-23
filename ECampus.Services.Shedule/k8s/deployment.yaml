@@ -18,3 +18,11 @@ spec:
           name: schedule           # ім'я контейнеру
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
+          envFrom:
+            - configMapRef:
+                name: schedule-service-config
+            - secretRef:
+                name: schedule-service-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"

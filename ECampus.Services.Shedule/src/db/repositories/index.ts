@@ -1,13 +1,19 @@
 import { ScheduleSlotRepository } from './schedule-slot';
 import { ScheduleRepository } from './schedule';
 import { SlotRepository } from './slot';
+import type { PrismaClient } from '@prisma/client';
 
-const initRepositories = ({ scheduleDB, scheduleSlotDB, slotDB }) => {
+const initRepositories = (prismaClient: PrismaClient) => {
     return {
-        scheduleRepository: new ScheduleRepository(scheduleDB),
-        scheduleSlotRepository: new ScheduleSlotRepository(scheduleSlotDB),
-        slotRepository: new SlotRepository(slotDB),
+        scheduleRepository: new ScheduleRepository(prismaClient),
+        scheduleSlotRepository: new ScheduleSlotRepository(prismaClient),
+        slotRepository: new SlotRepository(prismaClient),
     };
 };
 
-export { initRepositories, ScheduleRepository, ScheduleSlotRepository };
+export {
+    initRepositories,
+    ScheduleRepository,
+    ScheduleSlotRepository,
+    SlotRepository,
+};

@@ -19,10 +19,9 @@ class ScheduleService {
         return schedule;
     }
 
-
     async create(year: number) {
         const id = crypto.randomUUID();
-        const schedule = await this.scheduleRepository.create(id, year);
+        const schedule = await this.scheduleRepository.create({ id, year });
         console.log(schedule);
         return schedule;
     }
@@ -33,7 +32,7 @@ class ScheduleService {
     }
 
     async update(id: string, year: number) {
-        const updated = await this.scheduleRepository.update(id, year);
+        const updated = await this.scheduleRepository.update({ id, year });
         return updated;
     }
 }

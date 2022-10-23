@@ -26,13 +26,13 @@ class ScheduleSlotService {
         course_id: string,
     ) {
         const id = crypto.randomUUID();
-        const scheduleSlot = await this.scheduleSlotRepository.create(
+        const scheduleSlot = await this.scheduleSlotRepository.create({
             id,
             schedule_id,
             slot_id,
             student_id,
             course_id,
-        );
+        });
         return scheduleSlot;
     }
 
@@ -48,13 +48,13 @@ class ScheduleSlotService {
         student_id: string,
         course_id: string,
     ) {
-        const scheduleSlot = await this.scheduleSlotRepository.update(
+        const scheduleSlot = await this.scheduleSlotRepository.update({
             id,
             schedule_id,
             slot_id,
             student_id,
             course_id,
-        );
+        });
         return scheduleSlot;
     }
 }

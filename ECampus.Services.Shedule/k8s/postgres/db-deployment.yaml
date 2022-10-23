@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: schedule-service-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: schedule-service-db
   template:
     metadata:
       labels:
-        app: postgres
+        app: schedule-service-db
     spec:
       containers:
-        - name: postgres
+        - name: schedule-service-db
           image: postgres:14.1-alpine3.15
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: postgres-config
+                name: schedule-db-config
             - secretRef:
-                name: postgres-secret
+                name: schedule-db-secret
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-volume

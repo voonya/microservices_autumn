@@ -1,50 +1,38 @@
-import { ScheduleModel } from 'db/schemas/schedule';
-
-type ScheduleClient = typeof ScheduleModel;
+import type { PrismaClient } from '@prisma/client';
+import { Schedule } from 'constants/types/schedule';
 
 class ScheduleRepository {
-    private _dbClient: ScheduleClient;
+    private _dbClient: PrismaClient;
 
-    constructor(sequelizeModel: ScheduleClient) {
+    constructor(sequelizeModel: PrismaClient) {
         this._dbClient = sequelizeModel;
     }
 
     getById(id: string) {
-        return this._dbClient.findOne({ where: { id }, raw: true });
+        return this._dbClient.schedule.findFirst({ where: { id } });
     }
 
-    create(
-        id: string,
-        year: number
-    ) {
-        return this._dbClient.create({
-            id: id,
-            year: year
-        }, { raw: true });
+    create(schedule: Schedule) {
+        return this._dbClient.schedule.create({
+            data: schedule,
+        });
     }
 
     delete(id: string) {
-        return this._dbClient.destroy({
+        return this._dbClient.schedule.delete({
             where: {
                 id: id,
             },
         });
     }
 
-    update(
-        id: string,
-        year: number,
-    ) {
-        return this._dbClient.update(
-            {
-                year: year,
+    update(schedule: Schedule) {
+        return this._dbClient.schedule.update({
+            where: {
+                id: schedule.id,
             },
-            {
-                where: {
-                    id: id,
-                },
-            },
-        );
+            data: schedule,
+        });
     }
 }
 

@@ -1,62 +1,39 @@
-import { ScheduleSlotModel } from 'db/schemas/schedule-slot';
-
-type ScheduleSlotClient = typeof ScheduleSlotModel;
+import type { PrismaClient } from '@prisma/client';
+import { ScheduleSlot } from 'constants/types/schedule-slot';
 
 class ScheduleSlotRepository {
-    private _dbClient: ScheduleSlotClient;
+    private _dbClient: PrismaClient;
 
-    constructor(sequelizeModel: ScheduleSlotClient) {
-        this._dbClient = sequelizeModel;
+    constructor(prismaClient: PrismaClient) {
+        this._dbClient = prismaClient;
     }
 
     getById(id: string) {
-        return this._dbClient.findOne({ where: { id }, raw: true });
+        return this._dbClient.scheduleslot.findFirst({ where: { id } });
     }
 
-    create(
-        id: string,
-        schedule_id: string,
-        slot_id: string,
-        student_id: string,
-        course_id: string,
-    ) {
-        return this._dbClient.create({
-            id: id,
-            schedule_id: schedule_id,
-            slot_id: slot_id,
-            student_id: student_id,
-            course_id: course_id,
-        }, { raw: true });
+    create(scheduleslot: ScheduleSlot) {
+        console.log(scheduleslot)
+        return this._dbClient.scheduleslot.create({
+            data: scheduleslot,
+        });
     }
 
     delete(id: string) {
-        return this._dbClient.destroy({
+        return this._dbClient.scheduleslot.delete({
             where: {
                 id: id,
             },
         });
     }
 
-    update(
-        id: string,
-        schedule_id: string,
-        slot_id: string,
-        student_id: string,
-        course_id: string,
-    ) {
-        return this._dbClient.update(
-            {
-                schedule_id: schedule_id,
-                slot_id: slot_id,
-                student_id: student_id,
-                course_id: course_id,
+    update(scheduleslot: ScheduleSlot) {
+        return this._dbClient.scheduleslot.update({
+            where: {
+                id: scheduleslot.id,
             },
-            {
-                where: {
-                    id: id,
-                },
-            },
-        );
+            data: scheduleslot,
+        });
     }
 }
 

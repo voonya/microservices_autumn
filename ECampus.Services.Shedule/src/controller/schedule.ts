@@ -11,14 +11,14 @@ class ScheduleController {
 
     async getById(req: Request, res: Response) {
         const { id } = req.params;
-        
+
         const schedule = await this.scheduleService.getById(id);
 
         return res.status(HttpStatusCode.OK).json({
             schedule,
         });
     }
-    
+
     async create(req: Request, res: Response) {
         const { year } = req.body;
         console.log(req.body);

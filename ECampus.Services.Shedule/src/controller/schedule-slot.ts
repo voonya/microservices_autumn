@@ -11,7 +11,7 @@ class ScheduleSlotController {
 
     async getById(req: Request, res: Response) {
         const { id } = req.params;
-        console.log(id)
+        console.log(id);
 
         const scheduleSlot = await this.scheduleSlotService.getById(id);
 

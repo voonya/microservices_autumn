@@ -1,58 +1,39 @@
-import { SlotModel } from 'db/schemas/slot';
-
-type SlotClient = typeof SlotModel;
+import type { PrismaClient } from '@prisma/client';
+import { Slot } from 'constants/types/slot';
 
 class SlotRepository {
-    private _dbClient: SlotClient;
+    private _dbClient: PrismaClient;
 
-    constructor(sequelizeModel: SlotClient) {
+    constructor(sequelizeModel: PrismaClient) {
         this._dbClient = sequelizeModel;
     }
 
     getById(id: string) {
-        return this._dbClient.findOne({ where: { id }, raw: true });
+        return this._dbClient.slot.findFirst({ where: { id } });
     }
 
-    create(
-        id: string,
-        day: string,
-        begin_time: Date,
-        end_time: Date
-    ) {
-        return this._dbClient.create({
-            id: id,
-            day: day,
-            begin_time: begin_time,
-            end_time: end_time
+    create(slot: Slot) {
+        console.log(slot)
+        return this._dbClient.slot.create({
+            data: slot,
         });
     }
 
     delete(id: string) {
-        return this._dbClient.destroy({
+        return this._dbClient.slot.delete({
             where: {
                 id: id,
             },
         });
     }
 
-    update(
-        id: string,
-        day: string,
-        begin_time: Date,
-        end_time: Date
-    ) {
-        return this._dbClient.update(
-            {
-                day: day,
-                begin_time: begin_time,
-                end_time: end_time
+    update(slot: Slot) {
+        return this._dbClient.slot.update({
+            where: {
+                id: slot.id,
             },
-            {
-                where: {
-                    id: id,
-                },
-            },
-        );
+            data: slot,
+        });
     }
 }
 

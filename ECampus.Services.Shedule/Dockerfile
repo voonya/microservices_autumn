@@ -9,18 +9,15 @@ RUN npm run build
 
 ## this is stage two , where the app actually runs
 FROM node:16.3.0-alpine
+
+ENV DB_URL=postgres://scheduledb:postgres@schedule-db:5432/scheduledb
+
 WORKDIR /usr
 COPY package.json ./
+COPY prisma ./prisma
 RUN npm install --only=production
+RUN npm run db:generate
 COPY --from=0 /usr/build .
 RUN npm install pm2 -g
-
-ENV PORT=8080
-ENV DATABASE=vlad
-ENV DB_USERNAME=vlad
-ENV DB_PASSWORD=postgres
-ENV DB_HOST=10.106.210.36
-ENV DB_PORT=5432
-ENV DB_DIALECT=postgres
 
 CMD ["pm2-runtime","main.js"] 
