@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: authservice
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           image: voonya/auth
       volumes:
         - name: auth-storage
