@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { FileService } from 'services';
 import { HttpStatusCode } from 'constants/enums';
+import { UploadFilesRequest } from 'constants/types';
 
 class FileController {
     private fileService: FileService;
@@ -12,40 +13,38 @@ class FileController {
     async getById(req: Request, res: Response) {
         const { id } = req.params;
 
-        const file = await this.fileService.getById(id);
+        const filepath = await this.fileService.getById(id);
 
-        return res.status(HttpStatusCode.OK).json({
-            file,
-        });
+        return res.sendFile(filepath);
     }
 
-    create(req: Request, res: Response) {
-        const file = this.fileService.create('New file');
+    async create(req: UploadFilesRequest, res: Response) {
+        const files = await this.fileService.create(req.files);
 
         return res.status(HttpStatusCode.CREATED).json({
-            file,
+            files,
         });
     }
 
-    delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response) {
         const { id } = req.params;
 
-        const file = this.fileService.delete(id);
+        const file = await this.fileService.delete(id);
 
         return res.status(HttpStatusCode.OK).json({
             file,
         });
     }
 
-    update(req: Request, res: Response) {
-        const { id } = req.params;
+    // update(req: Request, res: Response) {
+    //     const { id } = req.params;
 
-        const file = this.fileService.update(id);
+    //     const file = this.fileService.update(id);
 
-        return res.status(HttpStatusCode.OK).json({
-            file,
-        });
-    }
+    //     return res.status(HttpStatusCode.OK).json({
+    //         file,
+    //     });
+    // }
 }
 
 export { FileController };

@@ -1,5 +1,7 @@
 type ProccesEnvKey = 'PORT';
 
+type FileEnvKey = 'FILEPATH';
+
 type DBEnvKey =
     | 'DATABASE'
     | 'DB_USERNAME'
@@ -8,6 +10,6 @@ type DBEnvKey =
     | 'DB_PORT'
     | 'DB_DIALECT';
 
-type EnvKeys = ProccesEnvKey | DBEnvKey;
+type EnvKeys = ProccesEnvKey | DBEnvKey | FileEnvKey;
 
 export const getEnv = (key: EnvKeys): string => process.env[key];

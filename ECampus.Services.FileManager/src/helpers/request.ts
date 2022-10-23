@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from 'express';
-import { HttpStatusCode } from 'constants/enums';
 
 export const wrap =
     <ResBody = unknown>(
@@ -11,13 +10,7 @@ export const wrap =
         next: NextFunction,
     ): Promise<void | Response<any, Record<string, any>>> =>
         handler(req, res)
-            .then((result) => {
-                if (!result) {
-                    return res.status(HttpStatusCode.OK).json({
-                        success: true,
-                    });
-                }
-
+            .then(() => {
                 return res;
             })
             .catch(next);

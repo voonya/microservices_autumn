@@ -21,7 +21,6 @@ namespace ECampus.Services.Auth.Services
             Claim[] claims =
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Typ, "Auth")
             };
 

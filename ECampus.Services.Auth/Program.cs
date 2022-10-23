@@ -1,29 +1,24 @@
 using ECampus.Services.Auth.Data.Repositories;
-using ECampus.Services.Auth.Models;
 using ECampus.Services.Auth.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using ECampus.Services.Auth.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ECampusDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection"));
+});
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// auth setup
-/*builder.Services
-    .AddIdentity<User, IdentityRole>(options =>
-    {
-        options.Password.RequiredLength = 6;
-        options.Password.RequireDigit = true;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireUppercase = true;
-        options.Password.RequireNonAlphanumeric = true;
-    })
-    .AddEntityFrameworkStores<ECampusDbContext>();*/
 
+// auth setup
 string signingKeyPhrase = builder.Configuration["SigningKeyPhrase"];
 SymmetricSecurityKey signingKey = new(Encoding.UTF8.GetBytes(signingKeyPhrase));
 
@@ -53,7 +48,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Auth", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Auth"));
     options.AddPolicy("Refresh", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Refresh"));
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -62,6 +57,7 @@ builder.Services.AddScoped<JwtTokenCreator>();
 builder.Services.AddScoped<JwtRefreshTokenHandler>();
 
 builder.Services.AddScoped<IMockRepostiory, MockRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 var app = builder.Build();
 

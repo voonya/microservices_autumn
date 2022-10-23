@@ -13,8 +13,23 @@ spec:
        app: file-manager               # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
       containers:
-        - image: voonya/file-manager    # образ Docker
-          imagePullPolicy: Never   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
+        - image: voonya/file-service    # образ Docker
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /usr/share/file-storage/files
+              name: file-storage
           name: file-manager           # ім'я контейнеру
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
+          envFrom:
+            - configMapRef:
+                name: file-service-config
+            - secretRef:
+                name: file-service-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+      volumes:
+        - name: file-storage
+          persistentVolumeClaim:
+            claimName: file-storage  
