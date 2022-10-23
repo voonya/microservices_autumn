@@ -12,19 +12,6 @@ spec:
       labels:
         app: authservice
     spec:
-      initContainers:
-          - name: run-migrations
-            image: voonya/auth-service-migrations
-            envFrom:
-              - configMapRef:
-                  name: file-service-config
-              - secretRef:
-                  name: file-service-secret
-            env:
-              - name: DB_URL
-                value: "postgres://filesDB:password@files-db:5432/filesDB"
-            imagePullPolicy: Never
-            command: ["migrate", "-path", "/migrations", "-database",  "$(DB_URL)", "goto", "$(VERSION)"]
       containers:
         - name: authservice
           imagePullPolicy: Never

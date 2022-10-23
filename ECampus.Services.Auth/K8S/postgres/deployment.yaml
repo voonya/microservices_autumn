@@ -18,6 +18,11 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: auth-service-db-config
+            - secretRef:
+                name: auth-service-db-secret
           volumeMounts:
           - mountPath: /var/lib/postgresql/data
             name: postgredb
