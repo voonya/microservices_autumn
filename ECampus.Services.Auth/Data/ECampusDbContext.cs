@@ -7,10 +7,14 @@ namespace ECampus.Services.Auth.Data
     {
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-        public DbSet<User> Users { get; set; }
-
         public ECampusDbContext(DbContextOptions<ECampusDbContext> options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("userdb");
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace ECampus.Services.Auth.Data.Repositories
         internal static User User { get; set; } = new()
         {
             Id = Guid.NewGuid().ToString(),
-            Name = "Test User",
-            Email = "test@test.com"
+            Login = "Test User",
+            Password = "test@test.com"
         };
 
         internal static List<RefreshToken> RefreshTokens { get; set; } = new()

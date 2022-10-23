@@ -1,4 +1,5 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
+import './App.css';
 
 const ProfileService = () => {
     const responseDiv = useRef<HTMLDivElement>(null);
@@ -16,8 +17,8 @@ const ProfileService = () => {
                 console.log(data);
                 setResponse(JSON.stringify(data, null, 4))
             }).catch((err) => {
-            console.error(err);
-        });
+                console.error(err);
+            });
     }
     const setResponse = (response: string) => {
         if (responseDiv.current) {
@@ -33,7 +34,7 @@ const ProfileService = () => {
     }
 
     const createProfileHandler = () => {
-        makeRequest(`/api/profile/`, {'method': "POST"});
+        makeRequest(`/api/profile/`, { 'method': "POST" });
     }
 
     const updateProfileHandler = () => {
@@ -73,7 +74,7 @@ const ProfileService = () => {
                     <div>
                         <span>POST</span>
                         <span>/api/profile/</span>
-                        <input type="text" ref={createProfileIdInput}/>
+                        <input type="text" ref={createProfileIdInput} />
                         <button onClick={createProfileHandler}>Send</button>
                     </div>
                 </div>
@@ -82,7 +83,7 @@ const ProfileService = () => {
                     <div>
                         <span>Update</span>
                         <span>/api/profile/:id</span>
-                        <input type="text" ref={updateProfileIdInput}/>
+                        <input type="text" ref={updateProfileIdInput} />
                         <button onClick={updateProfileHandler}>Send</button>
                     </div>
                 </div>
@@ -91,7 +92,7 @@ const ProfileService = () => {
                     <div>
                         <span>Delete</span>
                         <span>/api/profile/:id</span>
-                        <input type="text" ref={deleteProfileIdInput}/>
+                        <input type="text" ref={deleteProfileIdInput} />
                         <button onClick={deleteProfileHandler}>Send</button>
                     </div>
                 </div>

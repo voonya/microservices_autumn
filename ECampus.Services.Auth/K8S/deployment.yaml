@@ -16,6 +16,10 @@ spec:
         - name: authservice
           imagePullPolicy: Never
           image: voonya/auth
+      volumes:
+        - name: auth-storage
+          persistentVolumeClaim:
+            claimName: auth-service-db-claim
 ---
 apiVersion: v1
 kind: Service

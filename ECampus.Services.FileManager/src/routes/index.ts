@@ -1,3 +1,4 @@
+import { uploadFile } from 'middlewares/multer';
 import { wrap } from 'helpers/request';
 import { Router } from 'express';
 import {
@@ -20,18 +21,19 @@ const initRoutes = ({ fileController }: InitRoutesProps) => {
 
     routes.post(
         FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.CREATE_FILE,
-        fileController.create.bind(fileController),
+        uploadFile.array('files'),
+        wrap(fileController.create.bind(fileController)),
     );
 
     routes.delete(
         FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.DELETE_FILE,
-        fileController.delete.bind(fileController),
+        wrap(fileController.delete.bind(fileController)),
     );
 
-    routes.put(
-        FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.UPDATE_FILE,
-        fileController.update.bind(fileController),
-    );
+    // routes.put(
+    //     FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.UPDATE_FILE,
+    //     fileController.update.bind(fileController),
+    // );
 
     return routes;
 };

@@ -18,6 +18,6 @@ namespace ECampus.Services.Auth.Data.Repositories
 
         RefreshToken Delete(RefreshToken entityToDelete);
 
-        Task<bool> SaveChangesAsync();
+        Task<int> SaveChangesAsync();
     }
 }

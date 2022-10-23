@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-service-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: file-service-db
+  template:
+    metadata:
+      labels:
+        app: file-service-db
+    spec:
+      containers:
+        - name: file-service-db
+          image: postgres:14.1-alpine3.15
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: file-service-db-config
+            - secretRef:
+                name: file-service-db-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-db-file-service

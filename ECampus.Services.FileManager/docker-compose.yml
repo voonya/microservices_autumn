@@ -9,3 +9,8 @@ services:
       - PORT=${PORT}
     ports:
       - 8080:8080
+    volumes:
+      - file-storage:/usr/node/app
+volumes:
+  file-storage:
+    external: true
