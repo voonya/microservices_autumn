@@ -10,8 +10,6 @@ RUN npm run build
 ## this is stage two , where the app actually runs
 FROM node:16.3.0-alpine
 
-ENV DB_URL=postgres://scheduledb:postgres@schedule-db:5432/scheduledb
-
 WORKDIR /usr
 COPY package.json ./
 COPY prisma ./prisma

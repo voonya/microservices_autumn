@@ -13,6 +13,7 @@ class ScheduleRepository {
     }
 
     create(schedule: Schedule) {
+        console.log(schedule)
         return this._dbClient.schedule.create({
             data: schedule,
         });

@@ -32,7 +32,7 @@ const main = async () => {
         .use(routes)
         .use(errorHandler)
         .listen(PORT, () => {
-            console.log('Server listening on PORT', PORT);
+            console.log('Server listening on PORT:', PORT);
         });
 };
 

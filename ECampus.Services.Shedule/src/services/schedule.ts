@@ -1,6 +1,7 @@
 import { ScheduleNotFoundError } from 'exceptions';
 import { ScheduleRepository } from 'db/repositories/schedule';
 import crypto from 'crypto';
+import { Schedule } from 'constants/types/schedule';
 
 class ScheduleService {
     private scheduleRepository: ScheduleRepository;
@@ -21,7 +22,8 @@ class ScheduleService {
 
     async create(year: number) {
         const id = crypto.randomUUID();
-        const schedule = await this.scheduleRepository.create({ id, year });
+        console.log({ id, year })
+        const schedule = await this.scheduleRepository.create({ id, year } as Schedule);
         console.log(schedule);
         return schedule;
     }

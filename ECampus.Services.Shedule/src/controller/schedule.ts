@@ -21,7 +21,7 @@ class ScheduleController {
 
     async create(req: Request, res: Response) {
         const { year } = req.body;
-        console.log(req.body);
+        console.log("controller");
         const schedule = await this.scheduleService.create(year);
 
         return res.status(HttpStatusCode.CREATED).json({

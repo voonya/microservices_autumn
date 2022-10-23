@@ -8,7 +8,7 @@ const initServices = ({
     slotRepository,
 }) => {
     return {
-        scheduleService: new ScheduleSlotService(scheduleRepository),
+        scheduleService: new ScheduleService(scheduleRepository),
         scheduleSlotService: new ScheduleSlotService(scheduleSlotRepository),
         slotService: new SlotService(slotRepository),
     };
