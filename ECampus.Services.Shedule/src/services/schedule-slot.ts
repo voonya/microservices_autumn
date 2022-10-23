@@ -11,7 +11,6 @@ class ScheduleSlotService {
 
     async getById(id: string) {
         const scheduleSlot = await this.scheduleSlotRepository.getById(id);
-
         if (!scheduleSlot) {
             throw new ScheduleSlotNotFoundError();
         }

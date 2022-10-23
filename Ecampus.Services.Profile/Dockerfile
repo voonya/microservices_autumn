@@ -11,7 +11,9 @@ RUN npm run build
 FROM node:16.3.0-alpine
 WORKDIR /usr
 COPY package.json ./
+COPY prisma ./prisma
 RUN npm install --only=production
+RUN npm run db:generate
 COPY --from=0 /usr/build .
 RUN npm install pm2 -g
 
