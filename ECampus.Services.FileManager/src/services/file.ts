@@ -5,7 +5,6 @@ import { FileExtension } from 'constants/enums';
 import path from 'path';
 import fs from 'fs';
 import { getEnv } from 'helpers';
-import { randomUUID } from 'crypto';
 
 class FileService {
     private fileRepository: FileRepository;
@@ -29,6 +28,7 @@ class FileService {
             getEnv('FILEPATH'),
             filename,
         );
+
         if (!this.isFileExist(filePath)) {
             throw new FileNotFoundError();
         }
@@ -42,22 +42,20 @@ class FileService {
         const createdFiles = [];
 
         for (const file of files) {
-            const fileId = randomUUID();
             const splitedName = file.originalname.split('.');
             const extension = splitedName[splitedName.length - 1];
-            const filename = `${fileId}.${extension}`;
-
-            fs.writeFileSync(
-                path.resolve(this.filePath, filename),
-                file.buffer,
-            );
-
             const fileObj = {
                 filename: file.originalname,
                 extension,
             };
 
             const createdFile = await this.fileRepository.create(fileObj);
+
+            const filename = `${createdFile.id}.${extension}`;
+            fs.writeFileSync(
+                path.resolve(process.cwd(), this.filePath, filename),
+                file.buffer,
+            );
 
             createdFiles.push(createdFile);
         }
@@ -79,7 +77,10 @@ class FileService {
 
         const deletedFile = await this.fileRepository.delete(id);
 
-        fs.unlink(path.resolve(this.filePath, filename), () => {});
+        fs.unlink(
+            path.resolve(process.cwd(), this.filePath, filename),
+            () => {},
+        );
 
         if (!deletedFile) {
             throw new Error('Unsuccessful delete!');
