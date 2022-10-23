@@ -15,7 +15,7 @@ spec:
       containers:
         - name: schedule-service-db
           image: postgres:14.1-alpine3.15
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           envFrom:
