@@ -8,7 +8,7 @@ spec:
       containers:
         - name: migration-schedule-db
           image: voonya/migration-schedule-db
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           command: [ 'npx', 'prisma', 'migrate', 'deploy' ]
           envFrom:
             - configMapRef:
