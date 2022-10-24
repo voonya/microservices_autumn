@@ -1,5 +1,12 @@
 # microservices_autumn
 
+## Who made services
+Команда №12
+1. Auth service - Стельмашенко Максим ІП-01
+2. File service - Ніколаєв Іван ІП-01
+3. Shedule service - Шпилька Владислав ІП-01
+4. Profile service - Онацький Микита ІА-04
+
 ## Pre-installation
 1. Install docker: [link](https://docs.docker.com/engine/install/)
 2. Install kubectl and minikube: [link](https://kubernetes.io/docs/tasks/tools/)
@@ -10,6 +17,10 @@ To run script:
 bash start-services.sh
 ```
 
+To delete script:
+``` 
+bash delete-services.sh
+```
 ## Endpoints
 ### FileManager
 #### GET
