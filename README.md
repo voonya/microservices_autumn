@@ -8,8 +8,9 @@
 4. Profile service - Онацький Микита ІА-04
 
 ## Pre-installation
-1. Install docker: [link](https://docs.docker.com/engine/install/)
-2. Install kubectl and minikube: [link](https://kubernetes.io/docs/tasks/tools/)
+1. Install docker: [link](https://docs.docker.com/engine/install/).
+2. Install kubectl and minikube: [link](https://kubernetes.io/docs/tasks/tools/).
+3. Enable ingress.
 
 ## Main pipeline
 To run script:
