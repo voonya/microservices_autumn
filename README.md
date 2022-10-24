@@ -47,22 +47,22 @@ http://localhost:80/api/schedule/ (Create schedule)
 }
 ```
 
-http://localhost:80/api/schedule/scheduleslot/ (Create schedule-slot)
-```
-{
-    "schedule_id": :schedule_id,
-    "slot_id": :slot_id,
-    "student_id": "3",
-    "course_id": "2"
-}
-```
-
-http://localhost:80/api/schedule/slot/ (Get slot)
+http://localhost:80/api/schedule/slot/ (Create slot)
 ```
 {
     "day": "Sunday",
     "begin_time": "15:00:00",
     "end_time": "17:00:00"
+}
+```
+
+http://localhost:80/api/schedule/scheduleslot/ (Create schedule-slot)
+```
+{
+    "schedule_id": :schedule_id,
+    "slot_id": :slot_id,
+    "student_id": any uuid,
+    "course_id": any uuid,
 }
 ```
 
