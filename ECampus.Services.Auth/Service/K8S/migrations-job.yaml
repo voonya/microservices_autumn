@@ -8,8 +8,8 @@ spec:
       containers:
         - name: migration-auth-db
           image: voonya/migration-auth-db
-          imagePullPolicy: Always
-          command: [ 'dotnet', 'ef', 'database', 'update' ]
+          imagePullPolicy: Never
+          command: [ './MigrationsApplier' ]
           envFrom:
             - configMapRef:
                 name: auth-service-config
@@ -17,6 +17,6 @@ spec:
                 name: auth-service-secret
           env:
             - name: DB_URL
-              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+              value: "Host=$(DB_HOST); Port=$(DB_PORT); Database=$(DB_NAME); User Id=$(DB_USERNAME); Password=$(DB_PASSWORD)"
       restartPolicy: Never
-  backoffLimit: 0
+  backoffLimit: 4

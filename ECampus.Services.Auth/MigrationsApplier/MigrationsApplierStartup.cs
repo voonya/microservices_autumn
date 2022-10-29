@@ -27,9 +27,9 @@ namespace MigrationsApplier
         {
             services.AddDbContext<ECampusDbContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("DbConnection"));
+                options.UseNpgsql(Environment.GetEnvironmentVariable("DB_URL")!);
             });
-            Console.WriteLine(Configuration.GetConnectionString("DbConnection"));
+            Console.WriteLine(Environment.GetEnvironmentVariable("DB_URL")!);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

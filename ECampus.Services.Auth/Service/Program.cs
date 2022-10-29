@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ECampusDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection"));
+    options.UseNpgsql(Environment.GetEnvironmentVariable("DB_URL")!);
 });
 
 // Add services to the container.
