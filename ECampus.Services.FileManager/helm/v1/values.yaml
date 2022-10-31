@@ -1,0 +1,9 @@
+postgresql:
+  fullnameOverride: files-db
+  postgresqlDatabase: "filesDB"
+  postgresqlUsername: "filesDB"
+  postgresqlPassword: "password"
+  postgresqlPostgresPassword: "password"
+  persistence:
+    size: 5Gi
+    mountPath: /var/lib/postgresql/data
