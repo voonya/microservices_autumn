@@ -5,13 +5,17 @@ selector:
 
 image:
   name: voonya/file-service
+  containerName: file-service
   port: 8080
 
+migrations:
+  image: voonya/migration-files-db
+  name: migration-files-db
+  backoffLimit: 4
+
 service:
-  ports:
-    - name: http
-      port: 80
-      containerPort: 8080
+  containerPort: 8080
+  port: 80
 
 volume:
   storage:
@@ -20,8 +24,8 @@ volume:
     mountPath: /usr/share/file-storage/files
 
 ingress:
-  path: /api/service1
-  port: http
+  path: /api/file-service
+  port: 80
   proxyBodySize: 512m
 
 configs:

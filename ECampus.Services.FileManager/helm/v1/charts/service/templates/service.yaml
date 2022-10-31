@@ -5,10 +5,7 @@ metadata:
 spec:
   type: ClusterIP      # тип доступу до сервісу, ClusterIp - значення за замовчуванням і може бути пропущене
   ports:
-    {{- range .Values.service.ports }}
-    - name: {{ .name }}
-      port: {{ .port }}
-      targetPort: {{ .name }}
-    {{- end }}
+    - port: {{ .Values.service.port }}     # порт по якому можна звератись до сервісу
+      targetPort: {{ .Values.service.containerPort }}
   selector:
     {{ .Values.selector | toYaml }}      # селектор, всі Pod з даним селектором, будуть підключені до даного сервісу

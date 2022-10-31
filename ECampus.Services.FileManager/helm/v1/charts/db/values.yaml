@@ -6,6 +6,7 @@ image:
 
 configs:
   POSTGRES_DB: filesDB
+  DB_DIALECT: postgres
 
 secrets:
   POSTGRES_USER: ZmlsZXNEQg==
