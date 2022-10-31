@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}                      # кількість екземплярів Pod, що буде створено цим Deployment
+  selector:
+    matchLabels:
+      app:  {{ .Values.selector | toYaml }}                # селектор по якому Deployment зв'язаний з Pod
+  template:
+    metadata:
+     labels:
+       app: {{ .Values.selector | toYaml }}               # мітка Pod по якому вона буде зв'язана з Deployment та Service
+    spec:
+      containers:
+        - image: {{ .Values.image.name }}    # образ Docker
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: {{ .Values.volume.storage.mountPath }}
+              name: {{ .Values.volume.storage.name }}
+          name: {{ .Values.image.name }}           # ім'я контейнеру
+          ports:
+            {{- range .Values.service.ports }}
+            - name: {{ .name }}
+              containerPort: {{ .containerPort }}
+              protocol: TCP
+            {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-{{ .Chart.Name }}-config
+            - secretRef:
+                name: {{ .Release.Name }}-{{ .Chart.Name }}-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+      volumes:
+        - name: {{ .Values.volume.storage.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.volume.storage.claimName }}

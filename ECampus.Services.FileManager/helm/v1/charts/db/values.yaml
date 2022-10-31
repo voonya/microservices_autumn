@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  name: service1
+  port: 5432
+
+configs:
+  POSTGRES_DB: filesDB
+
+secrets:
+  POSTGRES_USER: ZmlsZXNEQg==
+  POSTGRES_PASSWORD: cGFzc3dvcmQ=
