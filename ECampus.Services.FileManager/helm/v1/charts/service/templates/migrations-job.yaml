@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.migrations.name }}
+  name: {{ include "common.fullname" . }}
 spec:
   template:
     spec:
@@ -12,9 +12,9 @@ spec:
           command: [ 'npx', 'prisma', 'migrate', 'deploy' ]
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}-config
+                name: {{ include "common.fullname" . }}-config
             - secretRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}-secret
+                name: {{ include "common.fullname" . }}-secret
           env:
             - name: DB_URL
               value: "$(DB_DIALECT)://$(DB_NAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"

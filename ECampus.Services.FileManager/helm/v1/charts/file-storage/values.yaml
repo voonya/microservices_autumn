@@ -1,3 +1,2 @@
 volume:
-  name: file-storage
   storageCapacity: 1Gi
