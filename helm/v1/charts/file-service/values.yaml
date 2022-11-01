@@ -1,8 +1,5 @@
 replicaCount: 1
 
-selector:
-  app: file-service
-
 image:
   name: voonya/file-service
   containerName: file-service
