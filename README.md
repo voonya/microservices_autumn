@@ -1,8 +1,16 @@
 # microservices_autumn
 
+## Who made services
+Команда №12
+1. Auth service - Стельмашенко Максим ІП-01
+2. File service - Ніколаєв Іван ІП-01
+3. Shedule service - Шпилька Владислав ІП-01
+4. Profile service - Онацький Микита ІА-04
+
 ## Pre-installation
-1. Install docker: [link](https://docs.docker.com/engine/install/)
-2. Install kubectl and minikube: [link](https://kubernetes.io/docs/tasks/tools/)
+1. Install docker: [link](https://docs.docker.com/engine/install/).
+2. Install kubectl and minikube: [link](https://kubernetes.io/docs/tasks/tools/).
+3. Enable ingress.
 
 ## Main pipeline
 To run script:
@@ -10,6 +18,10 @@ To run script:
 bash start-services.sh
 ```
 
+To delete script:
+``` 
+bash delete-services.sh
+```
 ## Endpoints
 ### FileManager
 #### GET
@@ -35,22 +47,22 @@ http://localhost:80/api/schedule/ (Create schedule)
 }
 ```
 
-http://localhost:80/api/schedule/scheduleslot/ (Create schedule-slot)
-```
-{
-    "schedule_id": :schedule_id,
-    "slot_id": :slot_id,
-    "student_id": "3",
-    "course_id": "2"
-}
-```
-
-http://localhost:80/api/schedule/slot/ (Get slot)
+http://localhost:80/api/schedule/slot/ (Create slot)
 ```
 {
     "day": "Sunday",
     "begin_time": "15:00:00",
     "end_time": "17:00:00"
+}
+```
+
+http://localhost:80/api/schedule/scheduleslot/ (Create schedule-slot)
+```
+{
+    "schedule_id": :schedule_id,
+    "slot_id": :slot_id,
+    "student_id": any uuid,
+    "course_id": any uuid,
 }
 ```
 

@@ -1,1 +1,1 @@
-kubectl delete k8s --recursive=true
+kubectl delete -f k8s --recursive=true
