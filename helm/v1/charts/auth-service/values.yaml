@@ -30,8 +30,8 @@ configs:
   DB_PORT: 5432
 
 secrets:
-  DB_NAME: YXV0aERC==
-  DB_USERNAME: YXV0aERC==
+  DB_NAME: YXV0aERC
+  DB_USERNAME: YXV0aERC
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
