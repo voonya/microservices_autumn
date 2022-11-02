@@ -1,0 +1,32 @@
+{{- define "common.prismaMigration" -}}
+
+{{- $common := dict "Values" .Values.common -}} # Values з common Chart
+{{- $noCommon := omit .Values "common" -}} # Values з основного Chart
+{{- $overrides := dict "Values" $noCommon -}} # записуємо common Values в змінну Values
+{{- $noValues := omit . "Values" -}} # містить усе крім Values, зокрема Chart, Release
+{{- with merge $noValues $overrides $common -}}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "common.fullname" . }}-migration
+spec:
+  template:
+    spec:
+      containers:
+        - name: {{ .Values.migrations.name }}
+          image: {{ .Values.migrations.image }}
+          imagePullPolicy: Always
+          command: [ 'npx', 'prisma', 'migrate', 'deploy' ]
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.fullname" . }}-config
+            - secretRef:
+                name: {{ include "common.fullname" . }}-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_NAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+      restartPolicy: Never
+  backoffLimit: {{ .Values.migrations.backoffLimit }}
+{{- end -}}
+{{- end -}}

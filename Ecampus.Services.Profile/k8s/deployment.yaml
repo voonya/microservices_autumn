@@ -6,43 +6,23 @@ spec:
   replicas: 1                      # кількість екземплярів Pod, що буде створено цим Deployment
   selector:
     matchLabels:
-      app: profile                 # селектор по якому Deployment зв'язаний з Pod
+      app: profile                # селектор по якому Deployment зв'язаний з Pod
   template:
     metadata:
-      labels:
-        app: profile               # мітка Pod по якому вона буде зв'язана з Deployment та Service
+     labels:
+       app: profile               # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
-      initContainers:
-        - name: run-migrations
-          image: voonya/profile-migrations
-          envFrom:
-            - configMapRef:
-                name: profile-config
-            - secretRef:
-                name: profile-secret
-          env:
-            - name: DB_URL
-              value: "postgres://filesDB:password@files-db:5432/filesDB"
-          imagePullPolicy: Never
-          command: [ "migrate", "-path", "/migrations", "-database",  "$(DB_URL)", "goto", "$(VERSION)" ] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
       containers:
         - image: voonya/profile    # образ Docker
-          volumeMounts:
-            - mountPath: /usr/share/profile/profiles
-              name: profile
-          imagePullPolicy: Never   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
-          name: profile            # ім'я контейнеру
+          imagePullPolicy: Always   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
+          name: profile           # ім'я контейнеру
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
           envFrom:
             - configMapRef:
-                name: profile-config
+                name: profile-service-config
             - secretRef:
-                name: profile-secret
+                name: profile-service-secret
           env:
             - name: DB_URL
-              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
-      volumes:
-        - name: profile
-          persistentVolumeClaim:
-            claimName: profile
+              value: "$(DB_DIALECT)://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(POSTGRES_DB)"

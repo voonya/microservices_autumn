@@ -1,8 +1,10 @@
 import { FileRepository } from './file';
+import type { PrismaClient } from '@prisma/client';
 
-const initRepositories = ({ fileDB }) => {
+const initRepositories = (prismaClient: PrismaClient) => {
+    //
     return {
-        fileRepository: new FileRepository(fileDB),
+        fileRepository: new FileRepository(prismaClient),
     };
 };
 

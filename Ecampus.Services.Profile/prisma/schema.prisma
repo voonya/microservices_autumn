@@ -20,4 +20,5 @@ model user {
   department_id            String?
   avatar_id                DateTime?
   token_id                 String?
+  qwe                      String?
 }

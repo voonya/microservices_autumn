@@ -8,7 +8,7 @@ class ProfileRepository {
         this._dbClient = prismaClient;
     }
 
-    getById(id: string) {
+    async getById(id: string) {
         return this._dbClient.user.findFirst({ where: { id } });
     }
 

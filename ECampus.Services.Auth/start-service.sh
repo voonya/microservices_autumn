@@ -1,0 +1,1 @@
+kubectl apply -f K8S --recursive=true

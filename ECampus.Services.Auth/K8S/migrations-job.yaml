@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration-auth-db
+spec:
+  template:
+    spec:
+      containers:
+        - name: migration-auth-db
+          image: voonya/migration-auth-db
+          imagePullPolicy: Always
+          command: [ 'dotnet', 'ef', 'database', 'update' ]
+          envFrom:
+            - configMapRef:
+                name: auth-service-config
+            - secretRef:
+                name: auth-service-secret
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+      restartPolicy: Never
+  backoffLimit: 0

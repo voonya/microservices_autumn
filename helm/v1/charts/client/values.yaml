@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  name: voonya/campus-client
+  containerName: campus-client
+  port: 80
+  tag: latest
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 80
+
+ingress:
+  path: /
+  port: http
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 512m

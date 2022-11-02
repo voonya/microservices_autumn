@@ -1,4 +1,3 @@
-import { initDB } from 'db/index';
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 import { initRoutes } from 'routes';
@@ -8,26 +7,19 @@ import { initServices } from 'services';
 import { initControllers } from 'controller';
 import { getEnv } from 'helpers';
 
+import { PrismaClient } from '@prisma/client';
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const PORT = Number(getEnv('PORT') || 8080);
-
-const DB_OPTIONS = {
-    database: getEnv('DATABASE'),
-    username: getEnv('DB_USERNAME'),
-    password: getEnv('DB_PASSWORD'),
-    host: getEnv('DB_HOST'),
-    port: Number(getEnv('DB_PORT')),
-    dialect: getEnv('DB_DIALECT'),
-};
-
-console.log(DB_OPTIONS);
+const PORT = getEnv('PORT') || 8080;
 
 const main = async () => {
-    const dbs = await initDB(DB_OPTIONS);
+    const prismaClient = new PrismaClient();
 
-    const repositories = initRepositories(dbs);
+    //const dbs = await initDB(prismaClient);
+
+    const repositories = initRepositories(prismaClient);
 
     const services = initServices(repositories);
 

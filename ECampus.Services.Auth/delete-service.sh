@@ -1,0 +1,1 @@
+kubectl delete -f K8S --recursive=true
