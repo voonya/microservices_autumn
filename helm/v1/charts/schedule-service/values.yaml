@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  name: voonya/schedule-service
-  containerName: schedule-service
+  name: voonya/schedule
+  containerName: schedule
   port: 8080
   tag: latest
 
@@ -18,7 +18,7 @@ migrations:
   backoffLimit: 4
 
 ingress:
-  path: /api/schedule-service
+  path: /api/schedule
   port: http
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 512m
@@ -30,9 +30,9 @@ configs:
   DB_PORT: 5432
 
 secrets:
-  DB_NAME: c2NoZWR1bGVkYg==
-  DB_USERNAME: c2NoZWR1bGVkYg==
-  DB_PASSWORD: cG9zdGdyZXM=
+  DB_NAME: c2NoZWR1bGVEQg==
+  DB_USERNAME: c2NoZWR1bGVEQg==
+  DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
   fullnameOverride: schedule-db
