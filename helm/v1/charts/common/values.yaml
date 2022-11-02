@@ -1,0 +1,22 @@
+replicaCount: 1
+
+nameOverride: ""
+
+image:
+  name: ""
+  tag: ""
+  containerName: ""
+
+service:
+  ports: []
+
+ingress:
+  path: /
+  port: http
+  annotations: []
+
+configs: {}
+
+secrets: {}
+
+common: {}
