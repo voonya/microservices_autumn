@@ -41,6 +41,7 @@ secrets:
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
+  nameOverride: files-db
   fullnameOverride: files-db
   postgresqlDatabase: "filesDB"
   postgresqlUsername: "filesDB"

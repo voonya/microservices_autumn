@@ -35,6 +35,7 @@ secrets:
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
+  nameOverride: schedule-db
   fullnameOverride: schedule-db
   postgresqlDatabase: "scheduleDB"
   postgresqlUsername: "scheduleDB"
