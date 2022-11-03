@@ -10,6 +10,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "common.fullname" . }}-migration
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 spec:
   template:
     spec:
