@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  name: voonya/auth
-  containerName: auth-service
+  name: voonya/schedule
+  containerName: schedule
   port: 8080
   tag: latest
 
@@ -13,12 +13,12 @@ service:
       containerPort: 8080
 
 migrations:
-  image: voonya/migration-auth-db
-  name: migration-auth-db
+  image: voonya/migration-schedule-db
+  name: migration-schedule-db
   backoffLimit: 4
 
 ingress:
-  path: /api/auth
+  path: /api/schedule
   port: http
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 512m
@@ -26,21 +26,21 @@ ingress:
 configs:
   PORT: 8080
   DB_DIALECT: postgres
-  DB_HOST: auth-db
+  DB_HOST: schedule-db
   DB_PORT: 5432
 
 secrets:
-  DB_NAME: YXV0aERC
-  DB_USERNAME: YXV0aERC
+  DB_NAME: c2NoZWR1bGVEQg==
+  DB_USERNAME: c2NoZWR1bGVEQg==
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
-  nameOverride: auth-db
-  fullnameOverride: auth-db
-  postgresqlDatabase: "authDB"
-  postgresqlUsername: "authDB"
+  nameOverride: schedule-db
+  fullnameOverride: schedule-db
+  postgresqlDatabase: "scheduleDB"
+  postgresqlUsername: "scheduleDB"
   postgresqlPassword: "password"
   postgresqlPostgresPassword: "password"
   persistence:
-    size: 5Gi
-    mountPath: /var/lib/postgresql/data
+    size: 10Gi
+    mountPath: /var/lib/postgresql/schedule-db/data

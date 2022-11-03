@@ -18,9 +18,10 @@ migrations:
   backoffLimit: 4
 
 volume:
-  name: file-storage
-  claimName: file-storage
+  name: file-service-storage
+  claimName: file-service-storage
   mountPath: /usr/share/file-storage/files
+  storageCapacity: 5Gi
 
 ingress:
   path: /api/file-service
@@ -41,6 +42,7 @@ secrets:
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
+  nameOverride: files-db
   fullnameOverride: files-db
   postgresqlDatabase: "filesDB"
   postgresqlUsername: "filesDB"
@@ -48,4 +50,4 @@ postgresql:
   postgresqlPostgresPassword: "password"
   persistence:
     size: 10Gi
-    mountPath: /var/lib/postgresql/data
+    mountPath: /var/lib/postgresql/files-db/data

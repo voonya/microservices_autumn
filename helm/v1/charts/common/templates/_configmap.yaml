@@ -11,6 +11,6 @@ kind: ConfigMap
 metadata:
   name: {{ include "common.fullname" . }}-config
 data:
-   {{ include "common.configMap" . }}
+   {{- include "common.configMap" . -}}
 {{- end -}}
 {{- end -}}
