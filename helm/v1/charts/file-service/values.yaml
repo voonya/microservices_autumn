@@ -18,9 +18,10 @@ migrations:
   backoffLimit: 4
 
 volume:
-  name: file-storage
-  claimName: file-storage
+  name: file-service-storage
+  claimName: file-service-storage
   mountPath: /usr/share/file-storage/files
+  storageCapacity: 5Gi
 
 ingress:
   path: /api/file-service
