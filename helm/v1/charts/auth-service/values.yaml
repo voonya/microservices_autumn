@@ -35,6 +35,7 @@ secrets:
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
+  nameOverride: auth-db
   fullnameOverride: auth-db
   postgresqlDatabase: "authDB"
   postgresqlUsername: "authDB"
