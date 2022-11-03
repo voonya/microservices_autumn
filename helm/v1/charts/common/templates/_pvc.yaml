@@ -1,4 +1,4 @@
-{{- define "common.secret" -}}
+{{- define "common.pvc" -}}
 
 {{- $common := dict "Values" .Values.common -}} # Values з common Chart
 {{- $noCommon := omit .Values "common" -}} # Values з основного Chart
@@ -7,11 +7,14 @@
 {{- with merge $noValues $overrides $common -}}
 ---
 apiVersion: v1
-kind: Secret
-type: Opaque
+kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "common.fullname" . }}-secret
-data:
-  {{- include "common.secretsMap" . -}}
+  name: {{ include "common.name" . }}-storage
+spec:
+  accessModes:
+    - ReadWriteOnce  
+  resources:
+    requests:
+      storage: {{ .Values.volume.storageCapacity }}
 {{- end -}}
 {{- end -}}
