@@ -1,0 +1,53 @@
+replicaCount: 1
+
+image:
+  name: voonya/file-service
+  containerName: file-service
+  port: 8080
+  tag: latest
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+migrations:
+  image: voonya/migration-files-db
+  name: migration-files-db
+  backoffLimit: 4
+
+volume:
+  name: file-service-storage
+  claimName: file-service-storage
+  mountPath: /usr/share/file-storage/files
+  storageCapacity: 5Gi
+
+ingress:
+  path: /api/file-service
+  port: http
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 512m
+
+configs:
+  PORT: 8080
+  DB_DIALECT: postgres
+  FILEPATH: share/file-storage/files
+  DB_HOST: files-db
+  DB_PORT: 5432
+
+secrets:
+  DB_NAME: ZmlsZXNEQg==
+  DB_USERNAME: ZmlsZXNEQg==
+  DB_PASSWORD: cGFzc3dvcmQ=
+
+postgresql:
+  nameOverride: files-db
+  fullnameOverride: files-db
+  postgresqlDatabase: "filesDB"
+  postgresqlUsername: "filesDB"
+  postgresqlPassword: "password"
+  postgresqlPostgresPassword: "password"
+  persistence:
+    size: 10Gi
+    mountPath: /var/lib/postgresql/files-db/data
