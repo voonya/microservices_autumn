@@ -4,12 +4,15 @@ metadata:
   name: migration-files-db
 spec:
   template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
         - name: migration-files-db
           image: voonya/migration-files-db
           imagePullPolicy: Always
-          command: [ 'npx', 'prisma', 'migrate', 'deploy' ]
+          command: ["npx", "prisma", "migrate", "deploy"]
           envFrom:
             - configMapRef:
                 name: file-service-config
