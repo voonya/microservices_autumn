@@ -1,5 +1,8 @@
 replicaCount: 3
 
+virtualservice:
+  timeout: "5s"
+
 image:
   name: voonya/file-service
   containerName: file-service

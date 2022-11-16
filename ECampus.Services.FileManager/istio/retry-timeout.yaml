@@ -8,5 +8,9 @@ spec:
   http:
     - route:
         - destination:
-            host: file
+            host: file-manager-service
       timeout: 5s
+      retries:
+        attempts: 3
+        retryOn: 5xx
+        perTryTimeout: 5s

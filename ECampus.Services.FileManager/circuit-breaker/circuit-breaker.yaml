@@ -6,7 +6,7 @@ spec:
   host: file-manager-service
   trafficPolicy:
     outlierDetection:
-      consecutive5xxErrors: 5
+      consecutive5xxErrors: 10
       interval: 10s
       baseEjectionTime: 30s
       maxEjectionPercent: 80

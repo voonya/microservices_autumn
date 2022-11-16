@@ -27,8 +27,10 @@ async function test(route, countRequests) {
     console.log();
 }
 
+console.log('Tests start!');
+
 const countTest = 3;
-const route = 'http://localhost:80/api/file-service/file/4b568892-9338-4c69-9dcd-dde183878727';
+const route = 'http://localhost:80/api/root-service/file-service/test';
 for (let i = 0; i < countTest; i++) {
-    await test(route, 20);
+    await test(route, 30);
 }
