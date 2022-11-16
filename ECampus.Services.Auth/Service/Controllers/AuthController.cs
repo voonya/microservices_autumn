@@ -20,6 +20,15 @@ namespace ECampus.Services.Auth.Controllers
             _tokenCreator = tokenCreator;
         }
 
+        [HttpGet("IsValid/{token}")]
+        [AllowAnonymous]
+        public IActionResult IsValid(string token)
+        {
+            var isValid = _tokenHandler.IsTokenValid(token);
+
+            return isValid ? Ok(true) : ValidationProblem();
+        }
+
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserModel model)
