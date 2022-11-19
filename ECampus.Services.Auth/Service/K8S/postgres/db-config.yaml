@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: auth-service-db-config
 data:
-  POSTGRES_DB: filesDB
+  POSTGRES_DB: authDB

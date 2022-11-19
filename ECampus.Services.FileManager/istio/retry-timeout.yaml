@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: file-service-virtual
+spec:
+  hosts:
+    - file-manager-service
+  http:
+    - route:
+        - destination:
+            host: file-manager-service
+      timeout: 5s
+      retries:
+        attempts: 3
+        retryOn: 5xx
+        perTryTimeout: 5s

@@ -30,6 +30,16 @@ const initRoutes = ({ fileController }: InitRoutesProps) => {
         wrap(fileController.delete.bind(fileController)),
     );
 
+    routes.post(
+        FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.BROKE_ROUTE,
+        wrap(fileController.brokeService.bind(fileController)),
+    );
+
+    routes.post(
+        FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.FIX_ROUTE,
+        wrap(fileController.fixService.bind(fileController)),
+    );
+
     // routes.put(
     //     FILE_MANAGER_BASE_ROUTE + FileManagerRoutes.UPDATE_FILE,
     //     fileController.update.bind(fileController),
