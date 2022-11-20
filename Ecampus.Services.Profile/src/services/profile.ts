@@ -1,5 +1,8 @@
 import { ProfileNotFoundError } from 'exceptions';
 import { ProfileRepository } from 'db/repositories';
+import {IFileUpload} from "../constants/types/upload-file";
+import axios from 'axios';
+import FormData from 'form-data';
 
 
 class ProfileService {
@@ -74,7 +77,21 @@ class ProfileService {
         return await this.profileRepository.changeDepartment(id, department_id)
     }
 
-    async changeAvatar(id: string, avatar_id: Date) {
+    async createAvatar(id: string, avatar: IFileUpload) {
+        const {buffer, originalname: filename} = avatar;
+
+        const data = new FormData();
+        data.append('files', buffer, {filename});
+
+        const result = await axios.post("http://file-service/api/file-service/file/", data, {
+            headers: {
+                "Content-Type": "multipart/form-data;",
+            },
+        });
+        return await this.changeAvatar(id, result[0].id)
+    }
+
+    async changeAvatar(id: string, avatar_id: string) {
         return await this.profileRepository.changeAvatar(id, avatar_id)
     }
 }

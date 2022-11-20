@@ -18,7 +18,7 @@ model user {
   role_id                  String
   group_id                 String?
   department_id            String?
-  avatar_id                DateTime?
+  avatar_id                String?
   token_id                 String?
   qwe                      String?
 }

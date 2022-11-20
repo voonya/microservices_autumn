@@ -90,7 +90,7 @@ class ProfileRepository {
         })
     }
 
-    changeAvatar(id: string, avatar_id: Date) {
+    changeAvatar(id: string, avatar_id: string) {
         return this._dbClient.user.update({where: {
                 id: id
             },

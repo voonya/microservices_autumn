@@ -11,5 +11,5 @@ export enum ProfileManagerRoutes {
     UPDATE_PROFILE_ROLE = '/:id/role',
     UPDATE_PROFILE_GROUP = '/:id/group',
     UPDATE_PROFILE_DEPARTMENT = '/:id/department',
-    UPDATE_PROFILE_AVATAR = '/:id/avatar',
+    CREATE_PROFILE_AVATAR = '/file/:id',
 }
