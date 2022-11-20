@@ -82,13 +82,13 @@ function AuthService() {
 						<span>POST</span>
 						<span>/api/auth/login</span>
 						<label>
-							Email
+							Username
 							<input
 								type="text"
 								onChange={(e) =>
 									setLoginData({
 										...loginData,
-										Email: e.target.value,
+										UserName: e.target.value,
 									})
 								}
 							></input>
