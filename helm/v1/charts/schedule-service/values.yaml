@@ -1,5 +1,8 @@
 replicaCount: 1
 
+virtualservice:
+  timeout: "5s"
+
 image:
   name: voonya/schedule
   containerName: schedule
@@ -42,5 +45,5 @@ postgresql:
   postgresqlPassword: "password"
   postgresqlPostgresPassword: "password"
   persistence:
-    size: 10Gi
+    size: 5Gi
     mountPath: /var/lib/postgresql/schedule-db/data
