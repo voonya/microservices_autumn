@@ -20,5 +20,4 @@ model user {
   department_id            String?
   avatar_id                String?
   token_id                 String?
-  qwe                      String?
 }
