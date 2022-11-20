@@ -1,4 +1,7 @@
-replicaCount: 1
+replicaCount: 3
+
+virtualservice:
+  timeout: "5s"
 
 image:
   name: voonya/file-service
@@ -35,6 +38,7 @@ configs:
   FILEPATH: share/file-storage/files
   DB_HOST: files-db
   DB_PORT: 5432
+  BROKE_TIMEOUT: 10
 
 secrets:
   DB_NAME: ZmlsZXNEQg==
