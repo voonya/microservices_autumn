@@ -37,12 +37,10 @@ const ProfileService = () => {
     }
 
     const createProfileHandler = () => {
-        if (!createProfileLoginInput.current?.files) {
+        if (!createProfileLoginInput.current?.value || !createProfilePasswordInput.current?.value) {
             return;
         }
-        if (!createProfilePasswordInput.current?.files) {
-            return;
-        }
+
         makeRequest(`/api/profile/`, {
             'method': "POST", body: JSON.stringify({
                 login: createProfileLoginInput.current.value,
@@ -52,10 +50,7 @@ const ProfileService = () => {
     }
 
     const createFileHandler = () => {
-        if (!createFileFileInput.current?.files) {
-            return;
-        }
-        if (!createFileIdInput.current?.files) {
+        if (!createFileFileInput.current?.files || !createFileIdInput.current?.value) {
             return;
         }
         const files = createFileFileInput.current.files;
