@@ -19,6 +19,16 @@ class ProfileService {
         return profile;
     }
 
+    async getByLogin(login: string) {
+        const user = await this.profileRepository.getByLogin(login);
+
+        if (!user) {
+            throw new ProfileNotFoundError();
+        }
+
+        return user;
+    }
+
     async getAll() {
         const profile = await this.profileRepository.getAll();
 

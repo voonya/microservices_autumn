@@ -19,6 +19,11 @@ const initRoutes = ({ profileController }: InitRoutesProps) => {
     );
 
     routes.get(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.GET_PROFILE_BY_LOGIN,
+        wrap(profileController.getByLogin.bind(profileController)),
+    )
+
+    routes.get(
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.GET_ALL,
         wrap(profileController.getAll.bind(profileController)),
     );

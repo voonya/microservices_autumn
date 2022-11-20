@@ -12,6 +12,10 @@ class ProfileRepository {
         return this._dbClient.user.findFirst({ where: { id } });
     }
 
+    async getByLogin(login: string) {
+        return this._dbClient.user.findFirst({ where: { login } });
+    }
+
     getAll() {
         return this._dbClient.user.findMany();
     }

@@ -19,6 +19,16 @@ class ProfileController {
         });
     }
 
+    async getByLogin(req: Request, res: Response) {
+        const { login } = req.params;
+
+        const user = await this.profileService.getByLogin(login);
+
+        return res.status(HttpStatusCode.OK).json({
+            user,
+        });
+    }
+
     async getAll(req: Request, res: Response) {
         const profile = await this.profileService.getAll();
 
