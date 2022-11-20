@@ -42,7 +42,7 @@ namespace ECampus.Services.Auth.Controllers
             if (user is null)
                 return NotFound();
 
-            if (model.Email != user.Login || model.Password != user.Password)
+            if (model.UserName != user.Login || model.Password != user.Password)
                 return BadRequest();
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
