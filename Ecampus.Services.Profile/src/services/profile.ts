@@ -42,7 +42,7 @@ class ProfileService {
         return profile;
     }
 
-    async create(login: string, password: string, first_name: string, last_name: string, birth_date: Date, role_id: number) {
+    async create(login: string, password: string, first_name: string, last_name: string, birth_date: Date, role_id: string) {
         return await this.profileRepository.createNewUser({
             login: login,
             password: password,
