@@ -89,6 +89,17 @@ const initRoutes = ({
         slotController.update.bind(slotController),
     );
 
+    routes.post(
+        SCHEDULE_MANAGER_BASE_ROUTE + ScheduleManagerRoutes.BROKE,
+        wrap(scheduleController.brokeService.bind(scheduleController)),
+    );
+
+    routes.post(
+        SCHEDULE_MANAGER_BASE_ROUTE + ScheduleManagerRoutes.FIX,
+        wrap(scheduleController.fixService.bind(scheduleController)),
+    );
+
+
     return routes;
 };
 
