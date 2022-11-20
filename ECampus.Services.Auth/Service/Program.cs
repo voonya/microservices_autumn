@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using ECampus.Services.Auth.Data;
+using ECampus.Services.Auth.Sync;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,6 +61,7 @@ builder.Services.AddScoped<JwtRefreshTokenHandler>();
 
 builder.Services.AddScoped<IMockRepostiory, MockRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<HttpSyncClient>();
 
 var app = builder.Build();
 

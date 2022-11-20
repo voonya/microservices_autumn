@@ -63,6 +63,7 @@ namespace ECampus.Services.Auth.Controllers
                 Password = model.Password
             };
             var createdUser = await _syncClient.CreateUserAsync(user);
+            if (createdUser is null) return BadRequest();
 
             var (token, _) = _tokenCreator.CreateAuthToken(createdUser);
             var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(createdUser).ConfigureAwait(false);
