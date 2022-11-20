@@ -81,6 +81,23 @@ namespace ECampus.Services.Auth.Controllers
         {
             try
             {
+                var userId = User.Claims.FirstOrDefault()?.Value;
+                await _tokenHandler.RemoveTokenAsync(userId);
+
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpPost("/broken/Logout")]
+        [AllowAnonymous]
+        public async Task<IActionResult> BrokenLogout()
+        {
+            try
+            {
                 await Task.Delay(10000);
                 var userId = User.Claims.FirstOrDefault()?.Value;
                 await _tokenHandler.RemoveTokenAsync(userId);
