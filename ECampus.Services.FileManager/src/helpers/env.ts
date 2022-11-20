@@ -1,4 +1,4 @@
-type ProccesEnvKey = 'PORT';
+type ProccesEnvKey = 'PORT' | 'BROKE_TIMEOUT';
 
 type FileEnvKey = 'FILEPATH';
 

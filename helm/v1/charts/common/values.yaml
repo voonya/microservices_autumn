@@ -1,0 +1,28 @@
+replicaCount: 1
+
+virtualservice:
+  timeout: ""
+
+nameOverride: ""
+
+image:
+  name: ""
+  tag: ""
+  containerName: ""
+
+service:
+  ports: []
+
+ingress:
+  path: /
+  port: http
+  annotations: []
+
+configs: {}
+
+secrets: {}
+
+common: {}
+
+volume:
+  storageCapacity: ""

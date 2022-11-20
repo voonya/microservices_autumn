@@ -6,6 +6,8 @@ export enum ScheduleManagerRoutes {
     DELETE_SCHEDULE = '/:id',
     UPDATE_SCHEDULE = '/:id',
     GET_STUDENT_SCHEDULE = '/student/:id',
+    BROKE = '/broke',
+    FIX = '/fix'
 }
 
 export enum ScheduleSlotManagerRoutes {

@@ -1,0 +1,49 @@
+replicaCount: 1
+
+virtualservice:
+  timeout: "5s"
+
+image:
+  name: voonya/auth
+  containerName: auth-service
+  port: 80
+  tag: latest
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 80
+
+migrations:
+  image: voonya/migration-auth-db
+  name: migration-auth-db
+  backoffLimit: 4
+
+ingress:
+  path: /api/auth
+  port: http
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 512m
+
+configs:
+  PORT: 8080
+  DB_DIALECT: postgres
+  DB_HOST: auth-db
+  DB_PORT: 5432
+
+secrets:
+  DB_NAME: YXV0aERC
+  DB_USERNAME: YXV0aERC
+  DB_PASSWORD: cGFzc3dvcmQ=
+
+postgresql:
+  nameOverride: auth-db
+  fullnameOverride: auth-db
+  postgresqlDatabase: "authDB"
+  postgresqlUsername: "authDB"
+  postgresqlPassword: "password"
+  postgresqlPostgresPassword: "password"
+  persistence:
+    size: 5Gi
+    mountPath: /var/lib/postgresql/data

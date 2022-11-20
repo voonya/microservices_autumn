@@ -1,6 +1,7 @@
 import { ScheduleSlotNotFoundError } from 'exceptions';
 import { ScheduleSlotRepository } from 'db/repositories/schedule-slot';
 import crypto from 'crypto';
+import axios from 'axios';
 
 class ScheduleSlotService {
     private scheduleSlotRepository: ScheduleSlotRepository;
@@ -10,12 +11,30 @@ class ScheduleSlotService {
     }
 
     async getById(id: string) {
+        console.log("---------profile------------")
         const scheduleSlot = await this.scheduleSlotRepository.getById(id);
         if (!scheduleSlot) {
             throw new ScheduleSlotNotFoundError();
         }
+        let profile;
+        await axios.get(`http://profile-service/api/profile/${scheduleSlot.student_id}`)
+        .then(function (response) {
+            // handle success
+            profile = response.data.profile;
+        })
+        .catch(function (error) {
+            console.log('Error');
 
-        return scheduleSlot;
+            console.log(error);
+            if (error?.response?.status === 404) {
+                return { message: 'Success!' }
+            }
+        })
+        .finally(function () {
+            // always executed
+        });
+        let fullScheduleSlot = {...scheduleSlot, student_name: profile.first_name, student_surname: profile.last_name};
+        return fullScheduleSlot;
     }
 
     async create(

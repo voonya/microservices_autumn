@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: root-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: 512m
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/root-service
+            pathType: "Prefix"
+            backend:
+              service:
+                name: root-service-service
+                port:
+                  number: 80

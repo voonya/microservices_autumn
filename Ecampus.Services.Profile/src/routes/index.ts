@@ -5,6 +5,7 @@ import {
     PROFILE_MANAGER_BASE_ROUTE,
 } from 'constants/enums/routes';
 import { ProfileController } from 'controller';
+import { uploadFile } from "../middlewares/multer";
 
 interface InitRoutesProps {
     profileController: ProfileController;
@@ -17,6 +18,11 @@ const initRoutes = ({ profileController }: InitRoutesProps) => {
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.GET_PROFILE,
         wrap(profileController.getById.bind(profileController)),
     );
+
+    routes.get(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.GET_PROFILE_BY_LOGIN,
+        wrap(profileController.getByLogin.bind(profileController)),
+    )
 
     routes.get(
         PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.GET_ALL,
@@ -58,9 +64,10 @@ const initRoutes = ({ profileController }: InitRoutesProps) => {
         wrap(profileController.updateDepartment.bind(profileController)),
     );
 
-    routes.patch(
-        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.UPDATE_PROFILE_AVATAR,
-        wrap(profileController.updateAvatar.bind(profileController)),
+    routes.post(
+        PROFILE_MANAGER_BASE_ROUTE + ProfileManagerRoutes.CREATE_PROFILE_AVATAR,
+        uploadFile.single('file'),
+        wrap(profileController.createAvatar.bind(profileController)),
     );
 
     return routes;

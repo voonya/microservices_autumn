@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authservice
+  template:
+    metadata:
+      labels:
+        app: authservice
+    spec:
+      containers:
+        - name: authservice
+          imagePullPolicy: Always
+          image: voonya/auth
+          env:
+            - name: DB_URL
+              value: "$(DB_DIALECT)://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+      volumes:
+        - name: auth-storage
+          persistentVolumeClaim:
+            claimName: auth-service-db-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: authservice
+  ports:
+  - name: authservice
+    protocol: TCP
+    port: 80
+    targetPort: 80 

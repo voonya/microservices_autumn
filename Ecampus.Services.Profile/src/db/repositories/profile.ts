@@ -12,6 +12,10 @@ class ProfileRepository {
         return this._dbClient.user.findFirst({ where: { id } });
     }
 
+    async getByLogin(login: string) {
+        return this._dbClient.user.findFirst({ where: { login } });
+    }
+
     getAll() {
         return this._dbClient.user.findMany();
     }
@@ -86,7 +90,7 @@ class ProfileRepository {
         })
     }
 
-    changeAvatar(id: string, avatar_id: Date) {
+    changeAvatar(id: string, avatar_id: string) {
         return this._dbClient.user.update({where: {
                 id: id
             },
