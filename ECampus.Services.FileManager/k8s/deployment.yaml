@@ -3,24 +3,24 @@ kind: Deployment
 metadata:
   name: file-manager
 spec:
-  replicas: 1                      # кількість екземплярів Pod, що буде створено цим Deployment
+  replicas: 3 # кількість екземплярів Pod, що буде створено цим Deployment
   selector:
     matchLabels:
-      app: file-manager                # селектор по якому Deployment зв'язаний з Pod
+      app: file-manager # селектор по якому Deployment зв'язаний з Pod
   template:
     metadata:
-     labels:
-       app: file-manager               # мітка Pod по якому вона буде зв'язана з Deployment та Service
+      labels:
+        app: file-manager # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
       containers:
-        - image: voonya/file-service    # образ Docker
+        - image: voonya/file-service # образ Docker
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /usr/share/file-storage/files
               name: file-storage
-          name: file-manager           # ім'я контейнеру
+          name: file-manager # ім'я контейнеру
           ports:
-            - containerPort: 8080  # порт по якому можна звертатись до поди
+            - containerPort: 8080 # порт по якому можна звертатись до поди
           envFrom:
             - configMapRef:
                 name: file-service-config
@@ -32,4 +32,4 @@ spec:
       volumes:
         - name: file-storage
           persistentVolumeClaim:
-            claimName: file-storage  
+            claimName: file-storage

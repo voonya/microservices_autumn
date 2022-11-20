@@ -1,4 +1,7 @@
-replicaCount: 1
+replicaCount: 3
+
+virtualservice:
+  timeout: "5s"
 
 image:
   name: voonya/file-service
@@ -18,9 +21,10 @@ migrations:
   backoffLimit: 4
 
 volume:
-  name: file-storage
-  claimName: file-storage
+  name: file-service-storage
+  claimName: file-service-storage
   mountPath: /usr/share/file-storage/files
+  storageCapacity: 5Gi
 
 ingress:
   path: /api/file-service
@@ -34,6 +38,7 @@ configs:
   FILEPATH: share/file-storage/files
   DB_HOST: files-db
   DB_PORT: 5432
+  BROKE_TIMEOUT: 10
 
 secrets:
   DB_NAME: ZmlsZXNEQg==
@@ -41,6 +46,7 @@ secrets:
   DB_PASSWORD: cGFzc3dvcmQ=
 
 postgresql:
+  nameOverride: files-db
   fullnameOverride: files-db
   postgresqlDatabase: "filesDB"
   postgresqlUsername: "filesDB"
@@ -48,4 +54,4 @@ postgresql:
   postgresqlPostgresPassword: "password"
   persistence:
     size: 10Gi
-    mountPath: /var/lib/postgresql/data
+    mountPath: /var/lib/postgresql/files-db/data

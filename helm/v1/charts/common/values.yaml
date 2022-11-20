@@ -1,5 +1,8 @@
 replicaCount: 1
 
+virtualservice:
+  timeout: ""
+
 nameOverride: ""
 
 image:
@@ -20,3 +23,6 @@ configs: {}
 secrets: {}
 
 common: {}
+
+volume:
+  storageCapacity: ""

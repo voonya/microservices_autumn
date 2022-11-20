@@ -6,9 +6,9 @@ cd ./ECampus.Services.Shedule
 bash delete-service.sh
 cd ..
 
-cd ./ECampus.Services.Auth
+cd ./ECampus.Services.Auth/Service
 bash delete-service.sh
-cd ..
+cd ../..
 
 cd ./ECampus.Services.Profile
 bash delete-service.sh
