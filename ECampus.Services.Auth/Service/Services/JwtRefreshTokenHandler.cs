@@ -47,6 +47,14 @@ namespace ECampus.Services.Auth.Services
             return token;
         }
 
+        public async Task RemoveTokenAsync(string userId)
+        {
+            var token = (await _tokenRepository.GetAsync(x => x.UserId == userId)).FirstOrDefault();
+            if (token is null) return;
+
+            await _tokenRepository.DeleteAsync(token);
+        }
+
         public bool IsTokenValid(string token)
         {
             string signingKeyPhrase = _configuration["SigningKeyPhrase"];
