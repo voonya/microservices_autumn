@@ -43,7 +43,7 @@ namespace ECampus.Services.Auth.Models
 
         [Column("avatar_id")]
         [JsonPropertyName("avatar_id")]
-        public DateTime AvatarId { get; set; }
+        public string AvatarId { get; set; } = null;
 
         [Column("token_id")]
         [JsonPropertyName("token_id")]

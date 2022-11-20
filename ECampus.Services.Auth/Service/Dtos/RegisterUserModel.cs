@@ -12,5 +12,17 @@ namespace ECampus.Services.Auth.Dtos
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; } = DateTime.UtcNow;
+
+        [Required]
+        public string RoleId { get; set; } = "1";
     }
 }

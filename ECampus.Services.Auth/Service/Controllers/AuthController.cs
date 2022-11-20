@@ -60,7 +60,11 @@ namespace ECampus.Services.Auth.Controllers
             var user = new User()
             {
                 Login = model.UserName,
-                Password = model.Password
+                Password = model.Password,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                BirthDate = model.BirthDate,
+                RoleId = model.RoleId
             };
             var createdUser = await _syncClient.CreateUserAsync(user);
             if (createdUser is null) return BadRequest();
