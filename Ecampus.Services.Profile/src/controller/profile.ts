@@ -40,11 +40,11 @@ class ProfileController {
 
 
     async create(req: Request, res: Response) {
-        const {login, password, first_name, last_name, birth_date, role_id} = req.body
+        const { login, password, first_name, last_name, birth_date, role_id } = req.body
         const profile = await this.profileService.create(login, password, first_name, last_name, birth_date, role_id);
 
         return res.status(HttpStatusCode.CREATED).json({
-            profile,
+            ...profile,
         });
     }
 
