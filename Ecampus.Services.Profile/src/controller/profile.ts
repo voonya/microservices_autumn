@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ProfileService } from 'services';
 import { HttpStatusCode } from 'constants/enums';
-import {UploadFilesRequest} from "../constants/types/upload-file";
+import { UploadFilesRequest } from "../constants/types/upload-file";
 
 class ProfileController {
     private profileService: ProfileService;
@@ -26,7 +26,7 @@ class ProfileController {
         const user = await this.profileService.getByLogin(login);
 
         return res.status(HttpStatusCode.OK).json({
-            user,
+            ...user,
         });
     }
 
