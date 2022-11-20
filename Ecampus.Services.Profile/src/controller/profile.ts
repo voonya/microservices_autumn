@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ProfileService } from 'services';
 import { HttpStatusCode } from 'constants/enums';
+import {UploadFilesRequest} from "../constants/types/upload-file";
 
 class ProfileController {
     private profileService: ProfileService;
@@ -102,14 +103,12 @@ class ProfileController {
         });
     }
 
-    async updateAvatar(req: Request, res: Response) {
-        const { id } = req.params;
-        const { avatar_id } = req.body
-
-        const profile = await this.profileService.changeAvatar(id, avatar_id);
+    async createAvatar(req: UploadFilesRequest, res: Response) {
+        const { id } = req.params
+        const file = await this.profileService.createAvatar(id, req.file);
 
         return res.status(HttpStatusCode.OK).json({
-            profile,
+            file,
         });
     }
 }

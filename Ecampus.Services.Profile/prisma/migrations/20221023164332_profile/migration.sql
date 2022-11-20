@@ -9,7 +9,7 @@ CREATE TABLE "user" (
     "role_id" TEXT NOT NULL,
     "group_id" TEXT,
     "department_id" TEXT,
-    "avatar_id" TIMESTAMP(3),
+    "avatar_id" TEXT,
     "token_id" TEXT,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
