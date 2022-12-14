@@ -1,0 +1,12 @@
+kafka:
+  fullnameOverride: kafka
+  numPartitions: 3
+  autoCreateTopicsEnable: false
+  provisioning:
+    enabled: true
+    topics:
+      - name: file
+      - name: auth
+      - name: schedule
+      - name: profile
+    persistence:

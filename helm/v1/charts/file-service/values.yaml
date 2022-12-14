@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 1
 
 virtualservice:
   timeout: "5s"
@@ -7,7 +7,7 @@ image:
   name: voonya/file-service
   containerName: file-service
   port: 8080
-  tag: latest
+  tag: kafka
 
 service:
   ports:

@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  name: voonya/root-service
-  containerName: root-service
+  name: voonya/logger
+  containerName: file-service
   port: 8080
   tag: latest
 
@@ -11,7 +11,3 @@ service:
     - name: http
       port: 80
       containerPort: 8080
-
-ingress:
-  path: /api/root-service
-  port: http

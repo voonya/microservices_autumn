@@ -24,6 +24,7 @@ class FileController {
     }
 
     async getById(req: Request, res: Response) {
+
         const { id } = req.params;
 
         if (this.isBroken) {
