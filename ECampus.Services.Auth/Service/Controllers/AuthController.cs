@@ -137,7 +137,10 @@ namespace ECampus.Services.Auth.Controllers
                 }
             };
 
-            var json = JsonSerializer.Serialize(kafkaModel);
+            var json = JsonSerializer.Serialize(kafkaModel, options: new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
             await _producer.ProduceAsync("auth", new Message<Null, string> { Value = json });
         }
     }
