@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Confluent.Kafka;
 using ECampus.Services.Auth.Constants;
 using ECampus.Services.Auth.Dtos;
@@ -16,7 +17,7 @@ namespace ECampus.Services.Auth.Controllers
         private readonly JwtRefreshTokenHandler _tokenHandler;
         private readonly JwtTokenCreator _tokenCreator;
         private readonly HttpSyncClient _syncClient;
-        private readonly IProducer<Null, KafkaAuthDto> _producer;
+        private readonly IProducer<Null, string> _producer;
 
         public AuthController(JwtRefreshTokenHandler tokenHandler, JwtTokenCreator tokenCreator, HttpSyncClient syncClient)
         {
@@ -27,7 +28,7 @@ namespace ECampus.Services.Auth.Controllers
             {
                 BootstrapServers = "kafka:9092"
             };
-            _producer = new ProducerBuilder<Null, KafkaAuthDto>(config).Build();
+            _producer = new ProducerBuilder<Null, string>(config).Build();
         }
 
         [HttpGet("IsValid/{token}")]
@@ -136,7 +137,8 @@ namespace ECampus.Services.Auth.Controllers
                 }
             };
 
-            await _producer.ProduceAsync("auth", new Message<Null, KafkaAuthDto> { Value = kafkaModel });
+            var json = JsonSerializer.Serialize(kafkaModel);
+            await _producer.ProduceAsync("auth", new Message<Null, string> { Value = json });
         }
     }
 }
