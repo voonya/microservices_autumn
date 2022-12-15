@@ -7,7 +7,6 @@ using System.Text;
 using ECampus.Services.Auth.Data;
 using ECampus.Services.Auth.Sync;
 using Microsoft.EntityFrameworkCore;
-using ECampus.Services.Auth.Sync;
 
 var builder = WebApplication.CreateBuilder(args);
 
