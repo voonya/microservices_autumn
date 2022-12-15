@@ -1,5 +1,8 @@
 replicaCount: 1
 
+virtualservice:
+  timeout: "5s"
+
 image:
   name: voonya/profile
   containerName: profile
@@ -40,5 +43,5 @@ postgresql:
   postgresqlPassword: "password"
   postgresqlPostgresPassword: "password"
   persistence:
-    size: 10Gi
+    size: 5Gi
     mountPath: /var/lib/postgresql/profilesdb/data

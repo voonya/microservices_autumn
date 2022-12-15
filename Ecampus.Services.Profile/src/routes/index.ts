@@ -5,7 +5,7 @@ import {
     PROFILE_MANAGER_BASE_ROUTE,
 } from 'constants/enums/routes';
 import { ProfileController } from 'controller';
-import {uploadFile} from "../middlewares/multer";
+import { uploadFile } from "../middlewares/multer";
 
 interface InitRoutesProps {
     profileController: ProfileController;

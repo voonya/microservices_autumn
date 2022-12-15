@@ -1,5 +1,8 @@
 replicaCount: 1
 
+virtualservice:
+  timeout: "5s"
+
 image:
   name: voonya/auth
   containerName: auth-service

@@ -10,14 +10,16 @@ import { getEnv } from 'helpers';
 import { PrismaClient } from '@prisma/client';
 
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 const PORT = getEnv('PORT') || 8080;
 
-const main = async () => {
-    const prismaClient = new PrismaClient();
+console.log(process.env)
 
-    //const dbs = await initDB(prismaClient);
+const main = async () => {
+
+    const prismaClient = new PrismaClient();
 
     const repositories = initRepositories(prismaClient);
 

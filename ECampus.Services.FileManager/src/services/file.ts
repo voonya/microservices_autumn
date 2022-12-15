@@ -5,7 +5,19 @@ import { FileExtension } from 'constants/enums';
 import path from 'path';
 import fs from 'fs';
 import { getEnv } from 'helpers';
+import { Kafka } from 'kafkajs';
 
+const kafka = new Kafka({
+    clientId: 'file-manager',
+    brokers: ['kafka:9092'],
+    connectionTimeout: 100000,
+    retry: {
+        initialRetryTime: 10000,
+        retries: 10
+    }
+})
+
+const producer = kafka.producer();
 class FileService {
     private fileRepository: FileRepository;
     private filePath: string;
@@ -37,6 +49,15 @@ class FileService {
             throw new FileNotFoundError();
         }
 
+        producer.connect().then(() => {
+            producer.send({
+                topic: 'file',
+                messages: [
+                    { value: JSON.stringify({ event: 'GETED', date: new Date(), data: file }) },
+                ],
+            })
+        });
+
         return filePath;
     }
 
@@ -62,7 +83,18 @@ class FileService {
             );
 
             createdFiles.push(createdFile);
+
+            producer.connect().then(() => {
+                producer.send({
+                    topic: 'file',
+                    messages: [
+                        { value: JSON.stringify({ event: 'CREATED', date: new Date(), data: createdFile }) },
+                    ],
+                })
+            });
         }
+
+
 
         return createdFiles;
     }
@@ -93,6 +125,15 @@ class FileService {
         if (!deletedFile) {
             throw new Error('Unsuccessful delete!');
         }
+
+        producer.connect().then(() => {
+            producer.send({
+                topic: 'file',
+                messages: [
+                    { value: JSON.stringify({ event: 'DELETED', date: new Date(), data: deletedFile }) },
+                ],
+            })
+        });
 
         return file;
     }

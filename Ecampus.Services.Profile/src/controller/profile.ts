@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { ProfileService } from 'services';
 import { HttpStatusCode } from 'constants/enums';
-import { UploadFilesRequest } from "../constants/types/upload-file";
 
 class ProfileController {
     private profileService: ProfileService;
@@ -113,8 +112,10 @@ class ProfileController {
         });
     }
 
-    async createAvatar(req: UploadFilesRequest, res: Response) {
-        const { id } = req.params
+    async createAvatar(req: Request, res: Response) {
+        const { id } = req.params;
+
+
         const file = await this.profileService.createAvatar(id, req.file);
 
         return res.status(HttpStatusCode.OK).json({
