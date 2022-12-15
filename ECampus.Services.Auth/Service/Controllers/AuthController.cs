@@ -136,7 +136,7 @@ namespace ECampus.Services.Auth.Controllers
                 }
             };
 
-            await _producer.ProduceAsync("Auth.Service", new Message<Null, KafkaAuthDto> { Value = kafkaModel });
+            await _producer.ProduceAsync("auth", new Message<Null, KafkaAuthDto> { Value = kafkaModel });
         }
     }
 }
