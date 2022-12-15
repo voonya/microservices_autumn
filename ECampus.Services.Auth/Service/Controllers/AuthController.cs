@@ -1,3 +1,5 @@
+using Confluent.Kafka;
+using ECampus.Services.Auth.Constants;
 using ECampus.Services.Auth.Dtos;
 using ECampus.Services.Auth.Models;
 using ECampus.Services.Auth.Services;
@@ -14,12 +16,18 @@ namespace ECampus.Services.Auth.Controllers
         private readonly JwtRefreshTokenHandler _tokenHandler;
         private readonly JwtTokenCreator _tokenCreator;
         private readonly HttpSyncClient _syncClient;
+        private readonly IProducer<Null, KafkaAuthDto> _producer;
 
         public AuthController(JwtRefreshTokenHandler tokenHandler, JwtTokenCreator tokenCreator, HttpSyncClient syncClient)
         {
             _tokenHandler = tokenHandler;
             _tokenCreator = tokenCreator;
             _syncClient = syncClient;
+            var config = new ProducerConfig
+            {
+                BootstrapServers = "kafka:9092"
+            };
+            _producer = new ProducerBuilder<Null, KafkaAuthDto>(config).Build();
         }
 
         [HttpGet("IsValid/{token}")]
@@ -48,6 +56,8 @@ namespace ECampus.Services.Auth.Controllers
             var (token, _) = _tokenCreator.CreateAuthToken(user);
             var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
 
+            await SendKafkaMessageAsync(KafkaConstants.LoginEvent, user.Id, user.Login);
+
             return Ok(new { User = user.Login, Token = token, RefreshToken = refreshToken });
         }
 
@@ -72,6 +82,8 @@ namespace ECampus.Services.Auth.Controllers
             var (token, _) = _tokenCreator.CreateAuthToken(createdUser);
             var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(createdUser).ConfigureAwait(false);
 
+            await SendKafkaMessageAsync(KafkaConstants.RegisterEvent, user.Id, user.Login);
+
             return Ok(new { User = createdUser.Login, Token = token, RefresjToken = refreshToken });
         }
 
@@ -83,6 +95,7 @@ namespace ECampus.Services.Auth.Controllers
             {
                 var userId = User.Claims.FirstOrDefault()?.Value;
                 await _tokenHandler.RemoveTokenAsync(userId);
+                await SendKafkaMessageAsync(KafkaConstants.LogoutEvent, userId);
 
                 return Ok();
             }
@@ -108,6 +121,22 @@ namespace ECampus.Services.Auth.Controllers
             {
                 return BadRequest(exception.Message);
             }
+        }
+
+        private async Task SendKafkaMessageAsync(string e, string userId, string username = null)
+        {
+            var kafkaModel = new KafkaAuthDto
+            {
+                Event = e,
+                Date = DateTime.UtcNow,
+                Data = new KafkaUserDto
+                {
+                    Id = userId,
+                    Username = username ?? string.Empty
+                }
+            };
+
+            await _producer.ProduceAsync("Auth.Service", new Message<Null, KafkaAuthDto> { Value = kafkaModel });
         }
     }
 }
