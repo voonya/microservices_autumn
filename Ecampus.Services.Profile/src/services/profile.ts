@@ -84,7 +84,7 @@ class ProfileService {
 
         producer.connect().then(() => {
             producer.send({
-                topic: 'file',
+                topic: 'profile',
                 messages: [
                     { value: JSON.stringify({ event: 'CREATED', date: new Date(), data: profile }) },
                 ],
@@ -99,7 +99,7 @@ class ProfileService {
 
         producer.connect().then(() => {
             producer.send({
-                topic: 'file',
+                topic: 'profile',
                 messages: [
                     { value: JSON.stringify({ event: 'DELETED', date: new Date(), data: profile }) },
                 ],

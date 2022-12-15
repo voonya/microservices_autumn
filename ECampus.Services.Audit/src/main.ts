@@ -41,7 +41,7 @@ const main = async () => {
 }
 
 function processAuthMessage(data: IAuthData) {
-    console.log(`[${new Date().toISOString()}] AUTH: -> USER: ${JSON.stringify(data.data)} SUCCESSFULLY ${data.event} AT ${new Date(data.date).toISOString()}`);
+    console.log(`[${new Date().toISOString()}] AUTH: -> USER: ${JSON.stringify(data.data)} SUCCESSFULLY ${data.event} AT ${data.date}`);
 }
 
 function processFileMessage(data: IFileData) {
@@ -53,7 +53,7 @@ function processProfileMessage(data: IProfileData) {
 }
 
 function processScheduleMessage(data: IScheduleData) {
-    console.log(`[${new Date().toISOString()}] SCHEDULE: -> SCHEDULE: ${data.data} SUCCESSFULLY ${data.event} AT ${new Date(data.date).toISOString()}`);
+    console.log(`[${new Date().toISOString()}] SCHEDULE: -> SCHEDULE: ${JSON.stringify(data.data)} SUCCESSFULLY ${data.event} AT ${new Date(data.date).toISOString()}`);
 }
 
 main();
