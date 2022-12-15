@@ -3,7 +3,19 @@ import { ProfileRepository } from 'db/repositories';
 import { IFileUpload } from "../constants/types/upload-file";
 import axios from 'axios';
 import FormData from 'form-data';
+import { Kafka } from 'kafkajs';
 
+const kafka = new Kafka({
+    clientId: 'profile-manager',
+    brokers: ['kafka:9092'],
+    connectionTimeout: 100000,
+    retry: {
+        initialRetryTime: 10000,
+        retries: 10
+    }
+})
+
+const producer = kafka.producer();
 
 class ProfileService {
     private profileRepository: ProfileRepository;
@@ -19,6 +31,15 @@ class ProfileService {
             throw new ProfileNotFoundError();
         }
 
+        producer.connect().then(() => {
+            producer.send({
+                topic: 'profile',
+                messages: [
+                    { value: JSON.stringify({ event: 'GETED', date: new Date(), data: profile }) },
+                ],
+            })
+        });
+
         return profile;
     }
 
@@ -28,6 +49,15 @@ class ProfileService {
         if (!user) {
             throw new ProfileNotFoundError();
         }
+
+        producer.connect().then(() => {
+            producer.send({
+                topic: 'profile',
+                messages: [
+                    { value: JSON.stringify({ event: 'GETED', date: new Date(), data: user }) },
+                ],
+            })
+        });
 
         return user;
     }
@@ -43,7 +73,7 @@ class ProfileService {
     }
 
     async create(login: string, password: string, first_name: string, last_name: string, birth_date: Date, role_id: string) {
-        return await this.profileRepository.createNewUser({
+        const profile = await this.profileRepository.createNewUser({
             login: login,
             password: password,
             first_name: first_name,
@@ -51,10 +81,32 @@ class ProfileService {
             birth_date: birth_date,
             role_id: role_id
         })
+
+        producer.connect().then(() => {
+            producer.send({
+                topic: 'file',
+                messages: [
+                    { value: JSON.stringify({ event: 'CREATED', date: new Date(), data: profile }) },
+                ],
+            })
+        });
+
+        return profile
     }
 
     async delete(id: string) {
-        return await this.profileRepository.deleteById(id);
+        const profile = await this.profileRepository.deleteById(id);
+
+        producer.connect().then(() => {
+            producer.send({
+                topic: 'file',
+                messages: [
+                    { value: JSON.stringify({ event: 'DELETED', date: new Date(), data: profile }) },
+                ],
+            })
+        });
+
+        return profile
     }
 
     async changeName(id: string, first_name: string, last_name: string) {
