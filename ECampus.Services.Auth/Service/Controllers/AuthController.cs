@@ -1,7 +1,7 @@
-using ECampus.Services.Auth.Data.Repositories;
 using ECampus.Services.Auth.Dtos;
 using ECampus.Services.Auth.Models;
 using ECampus.Services.Auth.Services;
+using ECampus.Services.Auth.Sync;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +13,22 @@ namespace ECampus.Services.Auth.Controllers
     {
         private readonly JwtRefreshTokenHandler _tokenHandler;
         private readonly JwtTokenCreator _tokenCreator;
+        private readonly HttpSyncClient _syncClient;
 
-        public AuthController(JwtRefreshTokenHandler tokenHandler, JwtTokenCreator tokenCreator)
+        public AuthController(JwtRefreshTokenHandler tokenHandler, JwtTokenCreator tokenCreator, HttpSyncClient syncClient)
         {
             _tokenHandler = tokenHandler;
             _tokenCreator = tokenCreator;
+            _syncClient = syncClient;
+        }
+
+        [HttpGet("IsValid/{token}")]
+        [AllowAnonymous]
+        public IActionResult IsValid(string token)
+        {
+            var isValid = _tokenHandler.IsTokenValid(token);
+
+            return isValid ? Ok(true) : ValidationProblem();
         }
 
         [HttpPost("Login")]
@@ -26,17 +37,13 @@ namespace ECampus.Services.Auth.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var user = new User();
-            // user = 
-            //   await _userManager.FindByNameAsync(model.UserName).ConfigureAwait(false)
-            //   ?? await _userManager.FindByEmailAsync(model.Email).ConfigureAwait(false);
+            var user = await _syncClient.GetUserByUsernameAsync(model.UserName);
 
             if (user is null)
-                return BadRequest();
+                return NotFound();
 
-            // var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false).ConfigureAwait(false);
-            // if (!result.Succeeded)
-            //    return BadRequest();
+            if (model.UserName != user.Login || model.Password != user.Password)
+                return BadRequest();
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
             var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
@@ -50,17 +57,22 @@ namespace ECampus.Services.Auth.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var user = new User();
-            // var result = await _userManager.CreateAsync(user, model.Password).ConfigureAwait(false);
-            // if (!result.Succeeded)
-            //    return BadRequest(result.Errors);
+            var user = new User()
+            {
+                Login = model.UserName,
+                Password = model.Password,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                BirthDate = model.BirthDate,
+                RoleId = model.RoleId
+            };
+            var createdUser = await _syncClient.CreateUserAsync(user);
+            if (createdUser is null) return BadRequest();
 
-            // await _signInManager.PasswordSignInAsync(user, model.Password, false, false).ConfigureAwait(false);
+            var (token, _) = _tokenCreator.CreateAuthToken(createdUser);
+            var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(createdUser).ConfigureAwait(false);
 
-            var (token, _) = _tokenCreator.CreateAuthToken(user);
-            var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
-
-            return Ok(new { User = user.Login, Token = token, RefresjToken = refreshToken });
+            return Ok(new { User = createdUser.Login, Token = token, RefresjToken = refreshToken });
         }
 
         [HttpPost("Logout")]
@@ -69,7 +81,26 @@ namespace ECampus.Services.Auth.Controllers
         {
             try
             {
-                // await _signInManager.SignOutAsync().ConfigureAwait(false);
+                var userId = User.Claims.FirstOrDefault()?.Value;
+                await _tokenHandler.RemoveTokenAsync(userId);
+
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpPost("/broken/Logout")]
+        [AllowAnonymous]
+        public async Task<IActionResult> BrokenLogout()
+        {
+            try
+            {
+                await Task.Delay(10000);
+                var userId = User.Claims.FirstOrDefault()?.Value;
+                await _tokenHandler.RemoveTokenAsync(userId);
 
                 return Ok();
             }

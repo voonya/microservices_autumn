@@ -4,9 +4,10 @@ import './App.css';
 const ProfileService = () => {
     const responseDiv = useRef<HTMLDivElement>(null);
     const getProfileIdInput = useRef<HTMLInputElement>(null);
-    const createProfileIdInput = useRef<HTMLInputElement>(null);
-    const updateProfileIdInput = useRef<HTMLInputElement>(null);
     const deleteProfileIdInput = useRef<HTMLInputElement>(null);
+    const createFileIdInput = useRef<HTMLInputElement>(null);
+    const createFileFileInput = useRef<HTMLInputElement>(null);
+
 
     const makeRequest = (route: string, options?: Record<string, unknown>) => {
         fetch(route, options)
@@ -33,25 +34,37 @@ const ProfileService = () => {
         makeRequest(`/api/profile/${getProfileIdInput.current.value}`);
     }
 
-    const createProfileHandler = () => {
-        makeRequest(`/api/profile/`, { 'method': "POST" });
-    }
-
-    const updateProfileHandler = () => {
-        if (!updateProfileIdInput.current?.value) {
+    const createFileHandler = () => {
+        if (!createFileFileInput.current?.files || !createFileIdInput.current?.value) {
             return;
         }
+        const files = createFileFileInput.current.files;
+        const filesData = new FormData()
+        Array.from(files).forEach(file => {
+            filesData.append('file', file);
+        });
 
-        makeRequest(`/api/profile/${updateProfileIdInput.current.value}`);
+
+        makeRequest(`/api/profile/file/${createFileIdInput.current.value}`, { method: "POST", body: filesData });
     }
+
 
     const deleteProfileHandler = () => {
         if (!deleteProfileIdInput.current?.value) {
             return;
         }
 
-        makeRequest(`/api/profile/${deleteProfileIdInput.current.value}`);
+        makeRequest(`/api/profile/${deleteProfileIdInput.current.value}`, { method: "DELETE" });
     }
+
+    // const updateProfileHandler = () => {
+    //     if (!updateProfileIdInput.current?.value) {
+    //         return;
+    //     }
+    //
+    //     makeRequest(`/api/profile/${updateProfileIdInput.current.value}`);
+    // }
+
     return (
         <div className="App">
             <div className='response-container'>
@@ -70,30 +83,22 @@ const ProfileService = () => {
                     </div>
                 </div>
                 <div>
-                    <h3>Create Profile</h3>
-                    <div>
-                        <span>POST</span>
-                        <span>/api/profile/</span>
-                        <input type="text" ref={createProfileIdInput} />
-                        <button onClick={createProfileHandler}>Send</button>
-                    </div>
-                </div>
-                <div>
-                    <h3>Update Profile</h3>
-                    <div>
-                        <span>Update</span>
-                        <span>/api/profile/:id</span>
-                        <input type="text" ref={updateProfileIdInput} />
-                        <button onClick={updateProfileHandler}>Send</button>
-                    </div>
-                </div>
-                <div>
                     <h3>Delete Profile</h3>
                     <div>
                         <span>Delete</span>
                         <span>/api/profile/:id</span>
                         <input type="text" ref={deleteProfileIdInput} />
                         <button onClick={deleteProfileHandler}>Send</button>
+                    </div>
+                </div>
+                <div>
+                    <h3>Change Avatar</h3>
+                    <div>
+                        <span>POST</span>
+                        <span>/api/profile/file/:id</span>
+                        <input type="id" ref={createFileIdInput} multiple />
+                        <input type="file" ref={createFileFileInput} multiple />
+                        <button onClick={createFileHandler}>Send</button>
                     </div>
                 </div>
             </section>

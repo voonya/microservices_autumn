@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 1
 
 virtualservice:
   timeout: "5s"
@@ -7,7 +7,7 @@ image:
   name: voonya/file-service
   containerName: file-service
   port: 8080
-  tag: latest
+  tag: kafka
 
 service:
   ports:
@@ -24,7 +24,7 @@ volume:
   name: file-service-storage
   claimName: file-service-storage
   mountPath: /usr/share/file-storage/files
-  storageCapacity: 5Gi
+  storageCapacity: 1Gi
 
 ingress:
   path: /api/file-service
@@ -53,5 +53,5 @@ postgresql:
   postgresqlPassword: "password"
   postgresqlPostgresPassword: "password"
   persistence:
-    size: 10Gi
+    size: 5Gi
     mountPath: /var/lib/postgresql/files-db/data

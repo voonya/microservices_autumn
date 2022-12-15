@@ -19,6 +19,16 @@ class ProfileController {
         });
     }
 
+    async getByLogin(req: Request, res: Response) {
+        const { login } = req.params;
+
+        const user = await this.profileService.getByLogin(login);
+
+        return res.status(HttpStatusCode.OK).json({
+            ...user,
+        });
+    }
+
     async getAll(req: Request, res: Response) {
         const profile = await this.profileService.getAll();
 
@@ -29,11 +39,11 @@ class ProfileController {
 
 
     async create(req: Request, res: Response) {
-        const {login, password, first_name, last_name, birth_date, role_id} = req.body
+        const { login, password, first_name, last_name, birth_date, role_id } = req.body
         const profile = await this.profileService.create(login, password, first_name, last_name, birth_date, role_id);
 
         return res.status(HttpStatusCode.CREATED).json({
-            profile,
+            ...profile,
         });
     }
 
@@ -102,14 +112,14 @@ class ProfileController {
         });
     }
 
-    async updateAvatar(req: Request, res: Response) {
+    async createAvatar(req: Request, res: Response) {
         const { id } = req.params;
-        const { avatar_id } = req.body
 
-        const profile = await this.profileService.changeAvatar(id, avatar_id);
+
+        const file = await this.profileService.createAvatar(id, req.file);
 
         return res.status(HttpStatusCode.OK).json({
-            profile,
+            file,
         });
     }
 }

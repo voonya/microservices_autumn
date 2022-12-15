@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "outDir": "build",
+        "module": "commonjs",
+        "baseUrl": "src",
+        "esModuleInterop": true,
+    },
+    "include": [
+        "src",
+        "../tests/test.js"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "ts-node": {
+        "require": [
+            "tsconfig-paths/register"
+        ]
+    }
+}
